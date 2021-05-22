@@ -1,0 +1,15 @@
+{
+  "allocation_amount": 100,
+  "investor_amounts": [
+    {
+      "name": "Investor A",
+      "requested_amount": 100,
+      "average_amount": 100
+    },
+    {
+      "name": "Investor B",
+      "requested_amount": 25,
+      "average_amount": 25
+    }
+  ]
+}
