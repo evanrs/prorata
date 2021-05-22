@@ -1,9 +1,9 @@
-import Fastify, { FastifyPluginAsync, HTTPMethods } from 'fastify'
+import Fastify from 'fastify'
 import { NextApiHandler } from 'next'
 import { registerProrateRoute } from '../../server'
 
 const app = Fastify({ logger: { prettyPrint: true } })
-app.register(registerProrateRoute, { prefix: '/api/experiment' })
+app.register(registerProrateRoute, { prefix: '/api' })
 
 const handler: NextApiHandler = async (nextRequest, nextResponse) => {
   await app.ready()

@@ -45,7 +45,8 @@ describe('Prorate Route', () => {
         { name: 'b', average_amount: 0, requested_amount: 1 },
       ],
     })
+
     expect(invalid).toMatchSnapshot('Logically Impossible')
-    expect(invalid.name).toBe('Internal Server Error')
+    expect(invalid.error).toBe('Internal Server Error')
   })
 })

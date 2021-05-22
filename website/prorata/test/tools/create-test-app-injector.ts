@@ -15,7 +15,7 @@ type Error = FastifyError & {
 
 export function createTestHarness<T = FastifyPluginOptions>(options?: T) {
   const harness = fastify({
-    logger: { prettyPrint: true, level: 'warn' },
+    logger: { prettyPrint: true, level: 'fatal' },
   })
 
   return harness.register(app.register, options)

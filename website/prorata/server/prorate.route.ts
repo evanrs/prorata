@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify'
-import { allocate } from './allocate'
 import { AllocationRequest, AllocationResponse } from './schema'
+import { allocate } from './allocate'
 
 export const registerProrateRoute: FastifyPluginAsync = async (app) => {
   app.route<{
