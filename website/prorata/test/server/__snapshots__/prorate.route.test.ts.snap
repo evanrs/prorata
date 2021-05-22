@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Prorate Route properly validates input: Empty Payload 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "body should have required property 'allocation_amount'",
+  "statusCode": 400,
+}
+`;
+
+exports[`Prorate Route properly validates input: Logically Impossible 1`] = `
+Object {
+  "error": "Internal Server Error",
+  "message": "\\"allocation\\" is required!",
+  "statusCode": 500,
+}
+`;
+
+exports[`Prorate Route properly validates input: Missing Payload 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "body should be object",
+  "statusCode": 400,
+}
+`;
+
+exports[`Prorate Route properly validates input: Zero Allocation 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "body.allocation_amount should be >= 1",
+  "statusCode": 400,
+}
+`;
+
+exports[`Prorate Route properly validates input: Zero Requested 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "body should have required property 'allocation_amount'",
+  "statusCode": 400,
+}
+`;
