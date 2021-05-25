@@ -1,5 +1,6 @@
+import { Type } from '@sinclair/typebox'
 import { FastifyPluginAsync } from 'fastify'
-import { AllocationRequest, AllocationResponse } from './schema'
+import { AllocationRequest, AllocationResponse } from '../shared/schema'
 import { allocate } from './allocate'
 
 export const registerProrateRoute: FastifyPluginAsync = async (app) => {
@@ -10,6 +11,9 @@ export const registerProrateRoute: FastifyPluginAsync = async (app) => {
     method: 'POST',
     url: '/prorate',
     schema: {
+      headers: Type.Object({
+        'content-type': Type.Literal('application/json'),
+      }),
       body: AllocationRequest,
       response: { 200: AllocationResponse },
     },

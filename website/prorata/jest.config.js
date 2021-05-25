@@ -4,6 +4,7 @@ module.exports = {
   testPathIgnorePatterns: ['<rootDir>[/\\\\](node_modules|.next)[/\\\\]'],
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$'],
   transform: {
+    '<rootDir>[/\\\\]node_modules[/\\\\]@evanrs/fetch/index.ts': 'babel-jest',
     '^.+\\.(ts|tsx)$': 'babel-jest',
   },
   watchPlugins: [
@@ -14,4 +15,7 @@ module.exports = {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__mocks__/fileMock.js',
   },
+  automock: false,
+  setupFiles: ['<rootDir>/test/setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/test/setup-env.ts'],
 }

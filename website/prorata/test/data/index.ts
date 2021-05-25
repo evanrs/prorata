@@ -1,4 +1,4 @@
-import { AllocationRequest, AllocationResponse } from '../../server'
+import { AllocationRequest, AllocationResponse } from '../../shared'
 
 import complex_1_input from './complex_1_input.json'
 import complex_1_output from './complex_1_output.json'

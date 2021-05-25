@@ -2,26 +2,8 @@
 
 exports[`Home page matches snapshot 1`] = `
 <DocumentFragment>
-  <div
-    class="jsx-1276654382 container"
-  >
-    <main
-      class="jsx-1276654382"
-    >
-      <h1
-        class="jsx-1276654382 title"
-      >
-        prorata
-      </h1>
-      <p
-        class="jsx-1276654382 description"
-      >
-        Let's get started
-      </p>
-    </main>
-    <footer
-      class="jsx-1276654382"
-    />
+  <div>
+    Investor A
   </div>
 </DocumentFragment>
 `;
