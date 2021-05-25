@@ -1,68 +1,34 @@
-import absoluteUrl from 'next-absolute-url'
-import { fetch, useCallEffect } from '../tools'
-
+import { useState } from 'react'
+import { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
-import { Prorata, Props as ProrataProps } from '../components'
+import absoluteUrl from 'next-absolute-url'
+
 import { AllocationRequest, AllocationResponse } from '../shared'
-import { data } from '../test/data'
+import { fetch, useAsyncState } from '../client'
+import { Prorata } from '../components'
 
-export function Home(props) {
-  // useCallEffect(
-  //   (setState) => {
-  //     setState(data[0].request)
-  //   },
-  //   (state) => {
-  //     fetch<AllocationRequest, AllocationResponse>('/api/prorate', {
+export type HomeProps = Record<string, unknown>
 
-  //       method: 'POST',
-  //       data: data[0].request,
-  //     })
-  //       .then((response) => setResult(response.data))
-  //       .catch((e) => console.error(e))
-  //   },
-  //   []
-  // )
-
-  const router = useRouter()
-  const [allocationRequest, setAllocationRequest] =
-    useState<AllocationRequest>()
-
-  const [allocation, setAllocation] = useState<AllocationResponse>()
-  useEffect(() => {
-    if (!allocationRequest) {
-      return
+export const Home: NextPage<HomeProps> = (_props) => {
+  const [input, setInput] = useState<AllocationRequest>()
+  const [output] = useAsyncState<AllocationResponse>(() => {
+    if (input == null) {
+      return { allocations: [] }
     }
 
-    let mounted = true
-
-    fetch<AllocationRequest, AllocationResponse>(`/api/prorate`, {
+    return fetch<AllocationRequest, AllocationResponse>('/api/prorate', {
       method: 'POST',
-      data: data[0].request,
+      data: input,
     })
-      .then(
-        (response) =>
-          mounted &&
-          setAllocation(response.data as unknown as AllocationResponse)
-      )
+      .then((response) => response.data)
       .catch((e) => console.error(e))
+  }, [input])
 
-    return () => {
-      mounted = false
-    }
-  }, [allocationRequest])
-
-  const allocationFor = useCallback<ProrataProps['allocationFor']>((data) => {
-    setAllocationRequest(data)
-  }, [])
-
-  return (
-    <Prorata allocation={allocation} allocationFor={allocationFor}></Prorata>
-  )
+  return <Prorata allocation={output} allocationFor={setInput}></Prorata>
 }
 
-Home.getInitialProps = (context) => {
+Home.getInitialProps = async (context) => {
   console.log('getInitialProps', context)
   return { hello: true }
 }

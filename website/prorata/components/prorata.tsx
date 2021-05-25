@@ -7,7 +7,7 @@ import { data } from '../test/data'
 import { AllocationRequest, AllocationResponse } from '../shared/schema'
 
 export type Props = {
-  allocation: AllocationResponse
+  allocation?: AllocationResponse
   allocationFor: (data: AllocationRequest) => ReturnType<EffectCallback>
 }
 
