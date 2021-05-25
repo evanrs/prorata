@@ -10,7 +10,7 @@ export interface ExtendedResponse<T> extends TypedResponse<T> {
 
 async function __fetch<D, T>(
   request: RequestInfo,
-  { data, headers, body, ...options }: ExtendedRequestInit<D> = {}
+  { data, headers, body, ...options }: ExtendedRequestInit<D> = {},
 ): Promise<ExtendedResponse<T>> {
   if (data != null) {
     headers = { ...headers, 'content-type': 'application/json' }
@@ -29,7 +29,7 @@ async function __fetch<D, T>(
       ...options,
       headers,
       body,
-    }
+    },
   )
 
   return Object.assign(response, {
