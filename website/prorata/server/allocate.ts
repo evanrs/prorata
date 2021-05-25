@@ -10,25 +10,20 @@ type AllocatedInvestor = InvestorRequest &
     allocation: number
   }
 
-export function allocate(
-  pool: InvestorRequest[],
-  amount: number,
-  type: 'status' | 'interest' = 'status'
-) {
+export function allocate(pool: InvestorRequest[], amount: number) {
   const ranked = ranksFor(pool).map((investor) => {
-    return setAllocation(investor, amount * investor[type])
+    return setAllocation(investor, amount * investor.status)
   })
 
   const unallocated = amount - sum(ranked.map((v) => v.allocation))
   const unallocatedInvestorsDivisor = sum(
-    ranked.map((investor) => (isAllocated(investor) ? 0 : investor.status))
+    ranked.map((investor) => (isAllocated(investor) ? 0 : investor.status)),
   )
 
   return ranked.map((investor) => {
     const allocation = isAllocated(investor)
       ? investor.allocation
-      : investor.allocation +
-        unallocated * (investor.status / unallocatedInvestorsDivisor)
+      : investor.allocation + unallocated * (investor.status / unallocatedInvestorsDivisor)
 
     return setAllocation(investor, correctFloatingPoint(allocation))
   })
@@ -37,7 +32,7 @@ export function allocate(
 function ranksFor(pool: InvestorRequest[]): RankedInvestor[] {
   const averageSum = sum(pool.map((v) => v.average_amount))
 
-  return pool.map((investor, i) => {
+  return pool.map((investor) => {
     const status = investor.average_amount / averageSum
 
     return { ...investor, status }
@@ -45,7 +40,7 @@ function ranksFor(pool: InvestorRequest[]): RankedInvestor[] {
 }
 
 function setAllocation<T extends InvestorRequest>(investor: T, value: number) {
-  let allocation = Math.min(investor.requested_amount, value)
+  const allocation = Math.min(investor.requested_amount, value)
 
   return { ...investor, allocation }
 }

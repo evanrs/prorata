@@ -1,4 +1,6 @@
-export const Box = ({ children, ...props }): JSX.Element => {
+import React from 'react'
+
+export const Box: React.FC = ({ children, ...props }) => {
   return (
     <div className="box" {...props}>
       {children}

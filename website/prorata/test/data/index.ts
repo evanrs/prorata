@@ -1,4 +1,4 @@
-import { AllocationRequest, AllocationResponse } from '../../shared'
+import { AllocationRequest, AllocationResponse, InvestorAllocation } from '../../shared'
 
 import complex_1_input from './complex_1_input.json'
 import complex_1_output from './complex_1_output.json'
@@ -38,14 +38,12 @@ export const data: TestData[] = [
     ...testcase,
     request: testcase.input,
     response: responseFor(testcase.output),
-  })
+  }),
 )
 
-export function outputFor({
-  allocations,
-}: AllocationResponse): AllocationTestResult {
-  const prorated = {}
-  for (let investor of allocations) {
+export function outputFor({ allocations }: AllocationResponse): AllocationTestResult {
+  const prorated: AllocationTestResult = {}
+  for (const investor of allocations) {
     prorated[investor.name] = investor.allocation
   }
 

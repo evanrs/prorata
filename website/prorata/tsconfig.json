@@ -5,7 +5,8 @@
     "allowJs": true,
     "skipLibCheck": true,
     // TODO strict
-    "strict": false,
+    "strict": true,
+    "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -15,12 +16,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "exclude": ["node_modules", ".next", "out"],
-  "include": [
-    "next-env.d.ts",
-    "styled-jsx.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js"
-  ]
+  "exclude": ["node_modules", ".next", "out", "**/*.ignore.*"],
+  "include": ["next-env.d.ts", "styled-jsx.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"]
 }
