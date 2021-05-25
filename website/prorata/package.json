@@ -2,12 +2,13 @@
   "name": "prorata",
   "author": "Evan Schneider <me@evanrs.com>",
   "license": "MIT",
+  "private": true,
   "version": "0.0.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc --pretty --noEmit",
+    "type-check": "tsc --pretty --noEmit && jest --ci",
     "format": "prettier --write .",
     "lint": "eslint . --ext ts --ext tsx --ext js",
     "test": "jest",
@@ -28,20 +29,18 @@
     ]
   },
   "dependencies": {
+    "@evanrs/fetch": "^0.2.0",
     "@sinclair/typebox": "0.16.7",
-    "fastest-validator": "1.11.0",
     "fastify": "3.15.1",
-    "fastify-autoload": "3.7.1",
     "fastify-blipp": "3.1.0",
-    "fastify-plugin": "3.0.0",
-    "fastify-swagger": "4.7.0",
     "next": "latest",
-    "next-test-api-route-handler": "1.2.24",
     "pino-pretty": "4.8.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "swr": "0.5.6"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "5.12.0",
     "@testing-library/react": "11.2.7",
     "@types/jest": "26.0.23",
     "@types/node": "15.3.1",
@@ -58,6 +57,7 @@
     "jest-watch-typeahead": "0.6.3",
     "light-my-request": "4.4.1",
     "lint-staged": "11.0.0",
+    "msw": "0.29.0",
     "prettier": "2.3.0",
     "typescript": "4.2.4"
   }

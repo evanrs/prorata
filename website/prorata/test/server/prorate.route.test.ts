@@ -1,4 +1,4 @@
-import type { AllocationRequest } from '../../server'
+import type { AllocationRequest } from '../../shared'
 
 import { data } from '../data'
 import { createInjector } from '../tools'
@@ -29,12 +29,12 @@ describe('Prorate Route', () => {
     expect(
       await inject.snapshotFor({
         allocation_amount: 0,
-      })
+      }),
     ).toMatchSnapshot('Zero Allocation')
     expect(
       await inject.snapshotFor({
         investor_amounts: [{ requested_amount: 0 }],
-      })
+      }),
     ).toMatchSnapshot('Zero Requested')
 
     // TODO validate its error handling for logical issues

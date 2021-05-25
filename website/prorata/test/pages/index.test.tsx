@@ -1,14 +1,20 @@
 import React from 'react'
-import { render, fireEvent } from '../tools'
-import { Home } from '../../pages/index'
+import '@testing-library/jest-dom/extend-expect'
+
+import { AllocationRequest, AllocationResponse } from '../../shared'
+import { Home } from '../../pages'
+import { render, fireEvent, waitFor, screen } from '../tools'
+import { data } from '../data'
 
 describe('Home page', () => {
-  it('matches snapshot', () => {
-    const { asFragment } = render(<Home />, {})
-    expect(asFragment()).toMatchSnapshot()
+  it('matches snapshot', async () => {
+    const result = render(<Home />, {})
+    await waitFor(() => screen.getByText('Investor A'))
+
+    expect(result.asFragment()).toMatchSnapshot()
   })
 
-  it('clicking button triggers alert', () => {
+  xit('clicking button triggers alert', () => {
     // const { getByText } = render(<Home />, {})
     // window.alert = jest.fn()
     // fireEvent.click(getByText('Test Button'))

@@ -1,4 +1,5 @@
-import { allocate, AllocationRequest } from '../../server'
+import { AllocationRequest } from '../../shared'
+import { allocate } from '../../server'
 import { data, outputFor } from '../data'
 
 describe('Proration', () => {
