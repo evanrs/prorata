@@ -1,11 +1,9 @@
 import React from 'react'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 
 import { AllocationRequest, AllocationResponse } from '../../shared'
 import { Home } from '../../pages'
-import { render, fetch, fireEvent, act, waitFor, screen } from '../tools'
+import { render, fireEvent, waitFor, screen } from '../tools'
 import { data } from '../data'
 
 describe('Home page', () => {
