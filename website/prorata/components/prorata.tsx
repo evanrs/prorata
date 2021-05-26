@@ -39,6 +39,17 @@ export function Prorata({ allocation, allocationFor }: Props): JSX.Element {
 
   return (
     <Flex direction="column">
+      <Table>
+        <Heading color="CaptionText" size="xs" fontWeight="black" pl={4}>
+          Investor
+        </Heading>
+        <Heading color="CaptionText" size="xs" fontWeight="black" pl={4}>
+          Request
+        </Heading>
+        <Heading color="CaptionText" size="xs" fontWeight="black" pl={4}>
+          Average
+        </Heading>
+      </Table>
       {/* Allocation Amount: {request?.allocation_amount} */}
       {request?.investor_amounts?.map((investor, i) => (
         <Investor key={investor.name} request={investor} name={i} onUpdate={onUpdate} />
@@ -107,11 +118,11 @@ const Investor: React.FC<InvestorProps> = ({ name, request, onUpdate }) => {
       />
 
       {name === 'new' ? (
-        <Button colorScheme="" variant="ghost">
+        <Button colorScheme="" variant="ghost" disabled>
           <AddIcon />
         </Button>
       ) : (
-        <Button colorScheme="yellow" variant="ghost">
+        <Button colorScheme="red" variant="ghost">
           <DeleteIcon />
         </Button>
       )}
@@ -134,3 +145,7 @@ const Field: React.FC<FieldProps> = ({ name, value, set, onChange, ...props }) =
 
   return <Input variant="filled" {...props} name={name} value={value ?? ''} onChange={onChange} />
 }
+
+const Table: React.FC<GridProps> = (props) => (
+  <Grid {...props} my=".5rem" gap={2} templateColumns="1fr 1fr 1fr 3rem" />
+)
