@@ -11,8 +11,6 @@ import { Flex, Heading, useColorMode, useColorModeValue } from '@chakra-ui/react
 export type HomeProps = Record<string, unknown>
 
 export const Home: NextPage<HomeProps> = (_props) => {
-  const mode = useColorMode()
-  useEffect(() => mode.setColorMode('light'), [])
   const [input, setInput] = useState<AllocationRequest>()
   const [output] = useAsyncState<AllocationResponse>(() => {
     if (input == null) {
@@ -32,14 +30,11 @@ export const Home: NextPage<HomeProps> = (_props) => {
       <Flex
         direction="column"
         background={useColorModeValue('grey.100', 'grey.700')}
-        maxWidth="50rem"
         p={8}
         rounded={8}
       >
-        <Heading color="blackAlpha.200" mb={6}>
-          Prorata
-        </Heading>
-        <Prorata allocation={output} allocationFor={setInput}></Prorata>
+        {/* <Heading size="lg">Prorata</Heading> */}
+        <Prorata allocations={output?.allocations} allocationFor={setInput}></Prorata>
       </Flex>
     </Flex>
   )

@@ -20,13 +20,23 @@ export function allocate(pool: InvestorRequest[], amount: number) {
     ranked.map((investor) => (isAllocated(investor) ? 0 : investor.status)),
   )
 
-  return ranked.map((investor) => {
+  const allocated = ranked.map((investor) => {
     const allocation = isAllocated(investor)
       ? investor.allocation
       : investor.allocation + unallocated * (investor.status / unallocatedInvestorsDivisor)
 
     return setAllocation(investor, correctFloatingPoint(allocation))
   })
+
+  // verify that we're not selling more than we have
+  const total = sum(allocated.map((v) => v.allocation))
+  if (total > amount) {
+    // remove from investor with the lowest status
+    const [lowest] = allocated.sort((a, b) => a.status - b.status)
+    lowest.allocation -= total - amount
+  }
+
+  return allocated
 }
 
 function ranksFor(pool: InvestorRequest[]): RankedInvestor[] {
@@ -50,5 +60,6 @@ function isAllocated(investor: AllocatedInvestor) {
 }
 
 export function correctFloatingPoint(v: number) {
-  return Number(parseFloat(`${v}`).toPrecision(8))
+  // return Math.round(v * 100) / 100
+  return Number(parseFloat(`${v}`).toPrecision(4))
 }

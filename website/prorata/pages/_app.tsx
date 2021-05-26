@@ -1,5 +1,4 @@
 import 'ress/ress.css'
-// import '@fontsource/inter/latin.css'
 import '@fontsource/inter/800.css'
 import '@fontsource/nunito-sans/600.css'
 

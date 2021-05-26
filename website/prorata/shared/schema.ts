@@ -30,7 +30,7 @@ export const InvestorAllocation = Type.Object({
 export type AllocationRequest = Static<typeof AllocationRequest>
 export const AllocationRequest = Type.Object({
   allocation_amount: Type.Integer({ minimum: 1 }),
-  investor_amounts: Type.Array(InvestorRequest),
+  investor_amounts: Type.Array(InvestorRequest, { minItems: 1 }),
 })
 
 export type AllocationResponse = Static<typeof AllocationResponse>

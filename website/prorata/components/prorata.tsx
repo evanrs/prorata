@@ -1,151 +1,102 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
-import { Button, Flex, Grid, GridProps, Heading, Input, InputProps } from '@chakra-ui/react'
-import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
+import React, { useEffect, useState, useCallback, EffectCallback } from 'react'
+import { Flex, Grid, GridProps, Heading } from '@chakra-ui/react'
 
-import { EffectCallback } from 'react'
-import { ajv, AllocationRequest, AllocationResponse, InvestorRequest } from '../shared'
+import { Storage } from '../client'
+import { ajv, AllocationRequest, AllocationResponse } from '../shared'
 
-const isAllocationRequest = ajv.compile<AllocationRequest>(AllocationRequest)
-const isInvestorRequest = ajv.compile<InvestorRequest>(InvestorRequest)
+import { Field } from './field'
+import { InvestorRequestForm, InvestorUpdateHandler } from './investor-request-form'
 
-export type Props = {
-  allocation?: AllocationResponse
-  allocationFor: (data: AllocationRequest) => ReturnType<EffectCallback>
+export type ProrataProps = {
+  allocations?: AllocationResponse['allocations']
+  allocationFor: (data?: AllocationRequest) => ReturnType<EffectCallback>
 }
 
-export function Prorata({ allocation, allocationFor }: Props): JSX.Element {
-  const [request, setRequest] = useState({
-    allocation_amount: undefined,
-    investor_amounts: [],
-  } as Partial<AllocationRequest>)
+const isAllocationRequest = ajv.compile<AllocationRequest>(AllocationRequest)
+const AllocationRequestStorage = Storage<AllocationRequest>('allocation-request')
 
-  // TODO set request with values
+export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Element {
+  const [allocation_amount, setAllocationAmount] =
+    useState<AllocationRequest['allocation_amount']>()
+  const [investor_amounts, setInvestorAmounts] = useState<AllocationRequest['investor_amounts']>([])
+
   useEffect(() => {
-    if (isAllocationRequest(request)) {
+    const request = AllocationRequestStorage.get('session')
+    if (request) {
+      setAllocationAmount(request?.allocation_amount)
+      setInvestorAmounts(request?.investor_amounts ?? [])
+    }
+  }, [])
+
+  useEffect(() => {
+    const request = { allocation_amount, investor_amounts }
+    AllocationRequestStorage.set('session', request)
+    // if its empty reset the allocations
+    if (investor_amounts.length === 0) {
+      allocationFor()
+    }
+    // if its a valid request get the allocation
+    else if (isAllocationRequest(request)) {
       allocationFor(request)
     }
-  }, [request])
+  }, [allocation_amount, investor_amounts])
 
-  const onUpdate: Setter<'new' | number, InvestorRequest> = useCallback((name, value) => {
-    setRequest(({ allocation_amount, investor_amounts }) => {
-      investor_amounts = [...(investor_amounts ?? [])]
-      const index: number = name === 'new' ? investor_amounts.length : name
+  const onInvestorUpdate: InvestorUpdateHandler = useCallback((name, value) => {
+    setInvestorAmounts((investor_amounts) => {
+      if (name === 'delete') {
+        investor_amounts = investor_amounts.filter((v) => v !== value)
+      } else {
+        investor_amounts = [...investor_amounts]
+        investor_amounts[name === 'new' ? investor_amounts.length : name] = value
+      }
 
-      investor_amounts[index] = value
-
-      return { allocation_amount, investor_amounts }
+      return investor_amounts
     })
   }, [])
 
   return (
     <Flex direction="column">
+      <Heading size="xs" fontWeight="black" mt={4}>
+        Total Available Allocation
+      </Heading>
       <Table>
-        <Heading color="CaptionText" size="xs" fontWeight="black" pl={4}>
-          Investor
+        <Field
+          placeholder="Allocation"
+          name="allocation_amount"
+          type="number"
+          min={1}
+          value={allocation_amount}
+          set={(_, value) => {
+            setAllocationAmount(Number(value))
+          }}
+        />
+      </Table>
+      {/*  investor request form headings */}
+      <Table templateColumns="3fr minmax(4.5rem, .75fr) 3rem" my={0}>
+        <Heading size="xs" fontWeight="black" mt={4}>
+          Investor Breakdown
         </Heading>
-        <Heading color="CaptionText" size="xs" fontWeight="black" pl={4}>
-          Request
-        </Heading>
-        <Heading color="CaptionText" size="xs" fontWeight="black" pl={4}>
-          Average
+
+        <Heading size="xs" fontWeight="black" mt={4} textAlign="left">
+          Investor Stake
         </Heading>
       </Table>
-      {/* Allocation Amount: {request?.allocation_amount} */}
-      {request?.investor_amounts?.map((investor, i) => (
-        <Investor key={investor.name} request={investor} name={i} onUpdate={onUpdate} />
+      {/*  existing investor request forms */}
+      {investor_amounts?.map((investor, i) => (
+        <InvestorRequestForm
+          key={`${investor.name}:${i}`}
+          name={i}
+          request={investor}
+          allocation={allocations?.[i]}
+          onUpdate={onInvestorUpdate}
+        />
       ))}
-      <Investor name="new" onUpdate={onUpdate} />
-      {/* TODO fill ui with request values */}
-      {/* TODO get new values from ui */}
+      {/*  new investor request form */}
+      <InvestorRequestForm name="new" onUpdate={onInvestorUpdate} />
     </Flex>
   )
 }
 
-type InvestorProps = {
-  onUpdate: Setter<'new' | number, InvestorRequest>
-  request?: InvestorRequest
-} & ({ name: 'new' } | { request: InvestorRequest; name: number })
-
-const Investor: React.FC<InvestorProps> = ({ name, request, onUpdate }) => {
-  const [state, setState] = useState<Partial<InvestorRequest> | undefined>(request)
-  const [submitted, setSubmitted] = useState(false)
-  const verified = useMemo(() => isInvestorRequest(state) && state, [state])
-
-  const setValue: Setter = useCallback((name, value) => {
-    setState((state) => ({ ...state, [name]: value }))
-  }, [])
-
-  useEffect(() => {
-    if (submitted && verified) {
-      onUpdate(name, verified)
-      if (name === 'new') {
-        setSubmitted(false)
-        setState({})
-      }
-    }
-  }, [submitted, verified])
-
-  return (
-    <Grid
-      as="form"
-      my=".5rem"
-      gap={2}
-      templateColumns="1fr 1fr 1fr 3rem"
-      onSubmit={(event) => {
-        event.preventDefault()
-
-        if (isInvestorRequest(state)) {
-          setSubmitted(true)
-        }
-      }}
-    >
-      <Field placeholder="Name" name="name" value={state?.name} set={setValue} />
-      <Field
-        placeholder="Requested Amount"
-        name="requested_amount"
-        value={state?.requested_amount}
-        set={setValue}
-        min={0}
-        type="number"
-      />
-      <Field
-        placeholder="Average Amount"
-        name="average_amount"
-        value={state?.average_amount}
-        set={setValue}
-        min={0}
-        type="number"
-      />
-
-      {name === 'new' ? (
-        <Button colorScheme="" variant="ghost" disabled>
-          <AddIcon />
-        </Button>
-      ) : (
-        <Button colorScheme="red" variant="ghost">
-          <DeleteIcon />
-        </Button>
-      )}
-      <input hidden type="submit" value="Submit" />
-    </Grid>
-  )
-}
-
-type Setter<K = string, V = string | number> = (name: K, value: V) => void
-type FieldProps = InputProps & {
-  name: string
-  value: string | number | null | undefined
-  set?: (name: string, value: string | number) => void
-}
-
-const Field: React.FC<FieldProps> = ({ name, value, set, onChange, ...props }) => {
-  if (set) {
-    onChange = (e) => set(name, e.currentTarget.value)
-  }
-
-  return <Input variant="filled" {...props} name={name} value={value ?? ''} onChange={onChange} />
-}
-
 const Table: React.FC<GridProps> = (props) => (
-  <Grid {...props} my=".5rem" gap={2} templateColumns="1fr 1fr 1fr 3rem" />
+  <Grid my=".5rem" gap={2} templateColumns="1fr 1fr 1fr minmax(4.5rem, .75fr) 3rem" {...props} />
 )
