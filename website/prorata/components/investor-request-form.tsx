@@ -22,7 +22,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
   onUpdate,
 }) => {
   const [state, setState] = useState<Partial<InvestorRequest> | undefined>(request)
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted, setSubmitted] = useState(request != null)
   const verified = useMemo(() => isInvestorRequest(state) && state, [state])
 
   const inputRef = useRef<HTMLInputElement>(null)

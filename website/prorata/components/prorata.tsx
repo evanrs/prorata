@@ -65,10 +65,16 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
           name="allocation_amount"
           type="number"
           min={1}
-          value={allocation_amount}
+          value={allocation_amount ? allocation_amount : ''}
           // TODO why are the types lost?
           set={(_: string, value: string) => {
-            setAllocationAmount(Number(value))
+            setAllocationAmount(
+              typeof value === 'number'
+                ? value
+                : typeof value === 'string'
+                ? Number(value)
+                : undefined,
+            )
           }}
         />
       </Table>
@@ -79,7 +85,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
         </Heading>
 
         <Heading size="xs" fontWeight="black" mt={4} textAlign="left">
-          Investor Stake
+          {investor_amounts?.length ? 'Investor Stake' : ''}
         </Heading>
       </Table>
       {/*  existing investor request forms */}
