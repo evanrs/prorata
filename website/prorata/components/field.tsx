@@ -10,20 +10,23 @@ export type FieldProps = InputProps & {
   set?: (name: string, value: string | number) => void
 }
 
-export const Field: React.FC<FieldProps> = ({ type, name, value, set, onChange, ...props }) => {
-  if (set) {
-    onChange = (e) => set(name, e.currentTarget.value)
-  }
+export const Field = React.forwardRef<HTMLInputElement, FieldProps>(
+  ({ name, value, set, onChange, ...props }, ref) => {
+    if (set) {
+      onChange = (e) => set(name, e.currentTarget.value)
+    }
 
-  return (
-    <Input
-      variant="filled"
-      fontSize={['xs', 'xs', 'sm', 'md']}
-      px={[2, 2, 2, 4]}
-      {...props}
-      name={name}
-      value={value ?? ''}
-      onChange={onChange}
-    />
-  )
-}
+    return (
+      <Input
+        ref={ref}
+        variant="filled"
+        fontSize={['xs', 'xs', 'sm', 'md']}
+        px={[2, 2, 2, 4]}
+        {...props}
+        name={name}
+        value={value ?? ''}
+        onChange={onChange}
+      />
+    )
+  },
+)

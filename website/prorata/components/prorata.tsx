@@ -66,7 +66,8 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
           type="number"
           min={1}
           value={allocation_amount}
-          set={(_, value) => {
+          // TODO why are the types lost?
+          set={(_: string, value: string) => {
             setAllocationAmount(Number(value))
           }}
         />

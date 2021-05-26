@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import React, { useEffect, useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react'
 import { Button, Grid } from '@chakra-ui/react'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 
@@ -24,6 +24,8 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
   const [state, setState] = useState<Partial<InvestorRequest> | undefined>(request)
   const [submitted, setSubmitted] = useState(false)
   const verified = useMemo(() => isInvestorRequest(state) && state, [state])
+
+  const inputRef = useRef<HTMLInputElement>(null)
   const variant = name === 'new' ? 'outline' : 'filled'
 
   const setValue: Setter = useCallback((name, value) => {
@@ -40,6 +42,13 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
     }
   }, [submitted, verified])
 
+  useLayoutEffect(() => {
+    if (name === 'new') {
+      console.log('meeeee', name, inputRef.current)
+      inputRef.current?.focus()
+    }
+  }, [name, submitted])
+
   return (
     <Grid
       as="form"
@@ -54,7 +63,14 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
         }
       }}
     >
-      <Field placeholder="Name" name="name" value={state?.name} set={setValue} variant={variant} />
+      <Field
+        ref={inputRef}
+        placeholder="Name"
+        name="name"
+        value={state?.name}
+        set={setValue}
+        variant={variant}
+      />
 
       <Field
         placeholder="Requested Amount"
