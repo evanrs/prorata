@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { Button, Flex, Grid, Input, InputProps } from '@chakra-ui/react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import { Button, Flex, Grid, GridProps, Heading, Input, InputProps } from '@chakra-ui/react'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 
 import { EffectCallback } from 'react'
@@ -56,21 +56,23 @@ type InvestorProps = {
 } & ({ name: 'new' } | { request: InvestorRequest; name: number })
 
 const Investor: React.FC<InvestorProps> = ({ name, request, onUpdate }) => {
-  const [ready, setReady] = useState(false)
   const [state, setState] = useState<Partial<InvestorRequest> | undefined>(request)
+  const [submitted, setSubmitted] = useState(false)
+  const verified = useMemo(() => isInvestorRequest(state) && state, [state])
 
   const setValue: Setter = useCallback((name, value) => {
     setState((state) => ({ ...state, [name]: value }))
   }, [])
 
   useEffect(() => {
-    if (ready && isInvestorRequest(state)) {
-      onUpdate(name, state)
+    if (submitted && verified) {
+      onUpdate(name, verified)
       if (name === 'new') {
+        setSubmitted(false)
         setState({})
       }
     }
-  }, [ready, state])
+  }, [submitted, verified])
 
   return (
     <Grid
@@ -82,7 +84,7 @@ const Investor: React.FC<InvestorProps> = ({ name, request, onUpdate }) => {
         event.preventDefault()
 
         if (isInvestorRequest(state)) {
-          setReady(true)
+          setSubmitted(true)
         }
       }}
     >
@@ -120,13 +122,12 @@ const Investor: React.FC<InvestorProps> = ({ name, request, onUpdate }) => {
 
 type Setter<K = string, V = string | number> = (name: K, value: V) => void
 type FieldProps = InputProps & {
-  label?: string
   name: string
   value: string | number | null | undefined
   set?: (name: string, value: string | number) => void
 }
 
-const Field: React.FC<FieldProps> = ({ label, name, value, set, onChange, ...props }) => {
+const Field: React.FC<FieldProps> = ({ name, value, set, onChange, ...props }) => {
   if (set) {
     onChange = (e) => set(name, e.currentTarget.value)
   }
