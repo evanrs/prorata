@@ -159,6 +159,7 @@ const Table: React.FC<GridProps> = (props) => (
     my={2}
     gap={[1, 1, 2, 2]}
     templateColumns="1fr 1fr 1fr minmax(4.5rem, .75fr) 3rem"
+    alignItems="flex-end"
     {...props}
   />
 )
