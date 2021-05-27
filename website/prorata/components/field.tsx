@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input } from '@chakra-ui/react'
-import { useAutoFocus } from '../client'
+import { useAutoFocus } from '../frontend'
 
 export type InputProps = Parameters<typeof Input>[0] & { type?: string }
 export type FieldProps = {

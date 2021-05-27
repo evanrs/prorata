@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, EffectCallback } from 'react'
 import { Flex, Grid, GridProps, Heading } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 
-import { Storage } from '../client'
+import { Storage } from '../frontend'
 import { ajv, AllocationRequest, AllocationResponse } from '../shared'
 
 import { CurrencyField } from './currency-field'

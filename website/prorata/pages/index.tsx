@@ -4,7 +4,7 @@ import Head from 'next/head'
 import { Flex, useColorModeValue } from '@chakra-ui/react'
 
 import { AllocationRequest, AllocationResponse } from '../shared'
-import { fetch, useAsyncState } from '../client'
+import { fetch, useAsyncState } from '../frontend'
 import { Prorata } from '../components'
 
 export type HomeProps = Record<string, unknown>
