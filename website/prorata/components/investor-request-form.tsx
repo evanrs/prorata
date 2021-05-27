@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { Button, Grid } from '@chakra-ui/react'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 
@@ -8,6 +8,7 @@ import { Field, Setter } from './field'
 export const isInvestorRequest = ajv.compile<InvestorRequest>(InvestorRequest)
 
 export type InvestorProps = {
+  autoFocus?: boolean
   request?: InvestorRequest
   allocation?: AllocationResponse['allocations'][number]
   onUpdate: InvestorUpdateHandler
@@ -20,12 +21,12 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
   request,
   allocation,
   onUpdate,
+  autoFocus,
 }) => {
   const [state, setState] = useState<Partial<InvestorRequest> | undefined>(request)
   const [submitted, setSubmitted] = useState(request != null)
   const verified = useMemo(() => isInvestorRequest(state) && state, [state])
 
-  const inputRef = useRef<HTMLInputElement>(null)
   const variant = name === 'new' ? 'outline' : 'filled'
 
   const setValue: Setter = useCallback((name, value) => {
@@ -42,13 +43,6 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
     }
   }, [submitted, verified])
 
-  useLayoutEffect(() => {
-    if (name === 'new') {
-      console.log('meeeee', name, inputRef.current)
-      inputRef.current?.focus()
-    }
-  }, [name, submitted])
-
   return (
     <Grid
       as="form"
@@ -64,7 +58,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
       }}
     >
       <Field
-        ref={inputRef}
+        autoFocus={autoFocus}
         placeholder="Name"
         name="name"
         value={state?.name}

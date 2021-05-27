@@ -26,23 +26,20 @@ export const Home: NextPage<HomeProps> = (_props) => {
   }, [input])
 
   return (
-    <Flex height="100vh" alignItems="center" justifyContent="center">
-      <Flex
-        direction="column"
-        background={useColorModeValue('grey.100', 'grey.700')}
-        p={8}
-        rounded={8}
-      >
-        {/* <Heading size="lg">Prorata</Heading> */}
-        <Prorata allocations={output?.allocations} allocationFor={setInput}></Prorata>
+    <>
+      <Flex height="100vh" alignItems="center" justifyContent="center">
+        <Flex
+          direction="column"
+          background={useColorModeValue('grey.100', 'grey.700')}
+          p={8}
+          rounded={8}
+        >
+          {/* <Heading size="lg">Prorata</Heading> */}
+          <Prorata allocations={output?.allocations} allocationFor={setInput}></Prorata>
+        </Flex>
       </Flex>
-    </Flex>
+    </>
   )
-}
-
-Home.getInitialProps = async (context) => {
-  console.log('getInitialProps', context)
-  return { hello: true }
 }
 
 export default Home

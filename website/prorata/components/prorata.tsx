@@ -20,6 +20,8 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
     useState<AllocationRequest['allocation_amount']>()
   const [investor_amounts, setInvestorAmounts] = useState<AllocationRequest['investor_amounts']>([])
 
+  const autoFocused = !allocation_amount ? 'allocation' : 'investor-request-form'
+
   useEffect(() => {
     const request = AllocationRequestStorage.get('session')
     if (request) {
@@ -61,13 +63,14 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
       </Heading>
       <Table>
         <Field
+          autoFocus={autoFocused === 'allocation'}
           placeholder="Allocation"
           name="allocation_amount"
           type="number"
           min={1}
+          variant={autoFocused === 'allocation' ? 'outline' : 'filled'}
           value={allocation_amount ? allocation_amount : ''}
-          // TODO why are the types lost?
-          set={(_: string, value: string) => {
+          set={(_, value) => {
             setAllocationAmount(
               typeof value === 'number'
                 ? value
@@ -99,7 +102,11 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
         />
       ))}
       {/*  new investor request form */}
-      <InvestorRequestForm name="new" onUpdate={onInvestorUpdate} />
+      <InvestorRequestForm
+        name="new"
+        onUpdate={onInvestorUpdate}
+        autoFocus={autoFocused === 'investor-request-form'}
+      />
     </Flex>
   )
 }
