@@ -1,33 +1,32 @@
-import React, { useRef } from 'react'
-import { Input, NumberInput } from '@chakra-ui/react'
-import { useLayoutEffect } from '../client'
+import React from 'react'
+import { Input } from '@chakra-ui/react'
+import { useAutoFocus } from '../client'
 
-export type NumberProps = Parameters<typeof NumberInput>[0] & { type: 'number' }
 export type InputProps = Parameters<typeof Input>[0] & { type?: string }
-export type FieldProps = InputProps & {
+export type FieldProps = {
   name: string | number
   value: string | number | null | undefined
   set?: Setter
   onChange?: void
 }
-export type Setter<K = string | number, V = string | number> = (name: K, value: V) => void
+export type Setter<K = string | number, V = string | number | undefined> = (
+  name: K,
+  value: V,
+) => void
 
-export const Field: React.FC<FieldProps> = ({ name, value, set, autoFocus, ...props }) => {
-  const inputRef = useRef<HTMLInputElement>(null)
+export const fieldStyleProps = {
+  variant: 'filled',
+  fontSize: ['xs', 'xs', 13, 'sm'],
+  px: [2, 2, 2, 4],
+}
 
-  useLayoutEffect(() => {
-    if (autoFocus) {
-      inputRef.current?.focus()
-    }
-  }, [autoFocus])
-
+export const Field: React.FC<InputProps & FieldProps> = (props) => {
+  const { name, value, set, autoFocus, ...rest } = props
   return (
     <Input
-      ref={inputRef}
-      variant="filled"
-      fontSize={['xs', 'xs', 'sm', 'sm']}
-      px={[2, 2, 2, 4]}
-      {...props}
+      {...useAutoFocus(autoFocus)}
+      {...fieldStyleProps}
+      {...rest}
       name={name}
       value={value ?? ''}
       onChange={(e) => {

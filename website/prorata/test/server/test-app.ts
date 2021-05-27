@@ -1,5 +1,5 @@
 import fastify from 'fastify'
-import * as app from '../../server'
+import * as app from '../../backend'
 
 // config needed for testing the application
 const defaults = {

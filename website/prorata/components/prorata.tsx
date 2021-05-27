@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useCallback, EffectCallback } from 'react'
 import { Flex, Grid, GridProps, Heading } from '@chakra-ui/react'
+import { useDebounce } from 'use-debounce'
 
 import { Storage } from '../client'
 import { ajv, AllocationRequest, AllocationResponse } from '../shared'
 
 import { Field } from './field'
+import { CurrencyField } from './currency-field'
 import { InvestorRequestForm, InvestorUpdateHandler } from './investor-request-form'
 
 export type ProrataProps = {
@@ -16,13 +18,20 @@ const isAllocationRequest = ajv.compile<AllocationRequest>(AllocationRequest)
 const AllocationRequestStorage = Storage<AllocationRequest>('allocation-request')
 
 export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Element {
+  const [ready, setReady] = useState(false)
   const [allocation_amount, setAllocationAmount] =
     useState<AllocationRequest['allocation_amount']>()
   const [investor_amounts, setInvestorAmounts] = useState<AllocationRequest['investor_amounts']>([])
 
-  const autoFocused = !allocation_amount ? 'allocation' : 'investor-request-form'
+  const [autoFocused, focused] = useDebounce(
+    !ready ? null : !allocation_amount ? 'allocation' : 'investor-request-form',
+    3000,
+  )
+  useEffect(focused.flush, [ready])
 
   useEffect(() => {
+    setReady(true)
+
     const request = AllocationRequestStorage.get('session')
     if (request) {
       setAllocationAmount(request?.allocation_amount)
@@ -58,15 +67,21 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
 
   return (
     <Flex direction="column">
-      <Heading size="xs" fontWeight="black" mt={4}>
-        Total Available Allocation
-      </Heading>
+      <Table my={0}>
+        <Heading size="xs" fontWeight="black" my={1}>
+          Total Available Allocation
+        </Heading>
+        <div />
+        <div />
+        <Heading size="xs" fontWeight="black" my={1} opacity={allocations?.length ? 1 : 0}>
+          Total Allocated
+        </Heading>
+      </Table>
       <Table>
-        <Field
+        <CurrencyField
           autoFocus={autoFocused === 'allocation'}
           placeholder="Allocation"
           name="allocation_amount"
-          type="number"
           min={1}
           variant={autoFocused === 'allocation' ? 'outline' : 'filled'}
           value={allocation_amount ? allocation_amount : ''}
@@ -80,17 +95,45 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
             )
           }}
         />
+        <div />
+        <div />
+
+        <CurrencyField
+          name="total"
+          variant="outline"
+          textAlign="right"
+          readOnly
+          value={allocations?.reduce((a, b) => a + b.allocation, 0)}
+          opacity={allocations?.length ? 1 : 0}
+        />
+
+        <div />
       </Table>
+
       {/*  investor request form headings */}
-      <Table templateColumns="3fr minmax(4.5rem, .75fr) 3rem" my={0}>
-        <Heading size="xs" fontWeight="black" mt={4}>
+      <Table my={0} mt=".5rem">
+        <Heading size="xs" fontWeight="black" mt={4} mb={1}>
           Investor Breakdown
         </Heading>
-
-        <Heading size="xs" fontWeight="black" mt={4} textAlign="left">
-          {investor_amounts?.length ? 'Investor Stake' : ''}
+        <Heading size="xs" fontWeight="black" mt={4} mb={1}>
+          {/* Requested */}
         </Heading>
+        <Heading size="xs" fontWeight="black" mt={4} mb={1}>
+          {/* Average */}
+        </Heading>
+        <Heading
+          size="xs"
+          fontWeight="black"
+          mt={4}
+          mb={1}
+          textAlign="left"
+          opacity={investor_amounts?.length ? 1 : 0}
+        >
+          Investor Stake
+        </Heading>
+        <div />
       </Table>
+
       {/*  existing investor request forms */}
       {investor_amounts?.map((investor, i) => (
         <InvestorRequestForm
@@ -101,6 +144,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
           onUpdate={onInvestorUpdate}
         />
       ))}
+
       {/*  new investor request form */}
       <InvestorRequestForm
         name="new"
@@ -112,5 +156,10 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
 }
 
 const Table: React.FC<GridProps> = (props) => (
-  <Grid my=".5rem" gap={2} templateColumns="1fr 1fr 1fr minmax(4.5rem, .75fr) 3rem" {...props} />
+  <Grid
+    my={2}
+    gap={[1, 1, 2, 2]}
+    templateColumns="1fr 1fr 1fr minmax(4.5rem, .75fr) 3rem"
+    {...props}
+  />
 )

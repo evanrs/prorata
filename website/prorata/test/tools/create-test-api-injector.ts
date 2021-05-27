@@ -1,6 +1,6 @@
 import type { InjectOptions, InjectPayload, Response } from 'light-my-request'
 import fastify, { FastifyPluginOptions, FastifyError } from 'fastify'
-import * as app from '../../server'
+import * as app from '../../backend'
 
 type Options<T> = InjectOptions & { payload?: T }
 type Inject<T> = (options: Options<T>) => Promise<Response>
@@ -21,16 +21,12 @@ export function createTestHarness<T = FastifyPluginOptions>(options?: T) {
   return harness.register(app.register, options)
 }
 
-export function createInjector<T extends InjectPayload>(
-  defaults: Options<T>
-): Injector<T> {
+export function createInjector<T extends InjectPayload>(defaults: Options<T>): Injector<T> {
   const harness = createTestHarness()
 
-  const inject = async (options?: Options<T>) =>
-    harness.inject({ ...defaults, ...options })
+  const inject = async (options?: Options<T>) => harness.inject({ ...defaults, ...options })
 
-  const snapshotFor = async <R>(payload?: T) =>
-    inject({ payload }).then((v) => v.json<R>())
+  const snapshotFor = async <R>(payload?: T) => inject({ payload }).then((v) => v.json<R>())
 
   return Object.assign(inject, { snapshotFor })
 }
