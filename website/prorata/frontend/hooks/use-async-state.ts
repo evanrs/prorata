@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, Dispatch, SetStateAction, DependencyList } from 'react'
 
-import { isPromise } from './is-promise'
+import { isPromise } from '../tools'
 import { useMountedEffect } from './use-mounted-effect'
 
 export function useAsyncState<S>(

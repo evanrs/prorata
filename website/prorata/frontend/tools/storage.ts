@@ -5,7 +5,7 @@ export function Storage<T>(prefix?: string) {
       try {
         return JSON.parse(localStorage.getItem(keyFor(key)) ?? '') ?? undefined
       } catch (error) {
-        console.warn(error)
+        // fail silently, because that happens sometimes
       }
     },
 

@@ -2,11 +2,10 @@ import React, { useEffect, useState, useCallback, EffectCallback } from 'react'
 import { Flex, Grid, GridProps, Heading } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 
-import { Storage } from '..'
-import { ajv, AllocationRequest, AllocationResponse } from '../../common'
+import { Storage } from '.'
+import { ajv, AllocationRequest, AllocationResponse } from '../common'
 
-import { CurrencyField } from './currency-field'
-import { InvestorRequestForm, InvestorUpdateHandler } from './investor-request-form'
+import { CurrencyField, InvestorRequestForm, InvestorUpdateHandler } from './components'
 
 export type ProrataProps = {
   allocations?: AllocationResponse['allocations']
@@ -18,8 +17,7 @@ const AllocationRequestStorage = Storage<AllocationRequest>('allocation-request'
 
 export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Element {
   const [ready, setReady] = useState(false)
-  const [allocation_amount, setAllocationAmount] =
-    useState<AllocationRequest['allocation_amount']>()
+  const [allocation_amount, setAllocationAmount] = useState<number>()
   const [investor_amounts, setInvestorAmounts] = useState<AllocationRequest['investor_amounts']>([])
 
   const [autoFocused, focused] = useDebounce(
@@ -39,17 +37,20 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
   }, [])
 
   useEffect(() => {
-    const request = { allocation_amount, investor_amounts }
-    AllocationRequestStorage.set('session', request)
-    // if its empty reset the allocations
-    if (investor_amounts.length === 0) {
-      allocationFor()
+    if (ready) {
+      const request = { allocation_amount, investor_amounts }
+      // store current session
+      AllocationRequestStorage.set('session', request)
+      // if its empty reset the allocations
+      if (allocations?.length && investor_amounts.length === 0) {
+        allocationFor()
+      }
+      // if its a valid request get the allocation
+      else if (isAllocationRequest(request)) {
+        allocationFor(request)
+      }
     }
-    // if its a valid request get the allocation
-    else if (isAllocationRequest(request)) {
-      allocationFor(request)
-    }
-  }, [allocation_amount, investor_amounts])
+  }, [ready, allocation_amount, investor_amounts])
 
   const onInvestorUpdate: InvestorUpdateHandler = useCallback((name, value) => {
     setInvestorAmounts((investor_amounts) => {

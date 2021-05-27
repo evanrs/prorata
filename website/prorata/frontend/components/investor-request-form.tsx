@@ -35,7 +35,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
   }, [])
 
   useEffect(() => {
-    if (submitted && verified) {
+    if (submitted && verified && request !== verified) {
       onUpdate(name, verified)
       if (name === 'new') {
         setSubmitted(false)
