@@ -68,12 +68,12 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
   return (
     <Flex direction="column">
       <Table my={0}>
-        <Heading size="xs" fontWeight="black" my={1}>
+        <Heading size="xs" my={1}>
           Total Available Allocation
         </Heading>
         <div />
         <div />
-        <Heading size="xs" fontWeight="black" my={1} opacity={allocations?.length ? 1 : 0}>
+        <Heading size="xs" my={1} opacity={allocations?.length ? 1 : 0}>
           Total Allocated
         </Heading>
       </Table>
@@ -112,18 +112,17 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
 
       {/*  investor request form headings */}
       <Table my={0} mt=".5rem">
-        <Heading size="xs" fontWeight="black" mt={4} mb={1}>
+        <Heading size="xs" mt={4} mb={1}>
           Investor Breakdown
         </Heading>
-        <Heading size="xs" fontWeight="black" mt={4} mb={1}>
+        <Heading size="xs" mt={4} mb={1}>
           {/* Requested */}
         </Heading>
-        <Heading size="xs" fontWeight="black" mt={4} mb={1}>
+        <Heading size="xs" mt={4} mb={1}>
           {/* Average */}
         </Heading>
         <Heading
           size="xs"
-          fontWeight="black"
           mt={4}
           mb={1}
           textAlign="left"
