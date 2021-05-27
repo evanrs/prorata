@@ -17,12 +17,6 @@ async function __fetch<D, T>(
     body = JSON.stringify(data)
   }
 
-  // const host = process.env.API_BASE_URL ?? ''
-  // const path = isRequest(request) ? request.url : request
-  // // TODO check that request doesn't have host …
-  // const url = host + path
-  // request = new Request(url, isRequest(request) ? request : undefined)
-
   const response = await fetch<T>(
     `${process.env.API_BASE_URL ?? ''}${(request as Request)?.url ?? request}`,
     {
