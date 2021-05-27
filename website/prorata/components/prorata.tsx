@@ -6,8 +6,8 @@ import { Storage } from '../client'
 import { ajv, AllocationRequest, AllocationResponse } from '../shared'
 
 import { Field } from './field'
+import { CurrencyField } from './currency-field'
 import { InvestorRequestForm, InvestorUpdateHandler } from './investor-request-form'
-import { NumberField } from './number-field'
 
 export type ProrataProps = {
   allocations?: AllocationResponse['allocations']
@@ -78,11 +78,10 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
         </Heading>
       </Table>
       <Table>
-        <NumberField
+        <CurrencyField
           autoFocus={autoFocused === 'allocation'}
           placeholder="Allocation"
           name="allocation_amount"
-          type="number"
           min={1}
           variant={autoFocused === 'allocation' ? 'outline' : 'filled'}
           value={allocation_amount ? allocation_amount : ''}
@@ -99,7 +98,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
         <div />
         <div />
 
-        <Field
+        <CurrencyField
           name="total"
           variant="outline"
           textAlign="right"

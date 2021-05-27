@@ -4,6 +4,7 @@ import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 
 import { ajv, AllocationResponse, InvestorRequest } from '../shared'
 import { Field, Setter } from './field'
+import { CurrencyField } from './currency-field'
 
 export const isInvestorRequest = ajv.compile<InvestorRequest>(InvestorRequest)
 
@@ -66,27 +67,25 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
         variant={variant}
       />
 
-      <Field
+      <CurrencyField
         placeholder="Requested Amount"
         name="requested_amount"
         value={state?.requested_amount}
         set={setValue}
         min={0}
-        type="number"
         variant={variant}
       />
 
-      <Field
+      <CurrencyField
         placeholder="Average Amount"
         name="average_amount"
         value={state?.average_amount}
         set={setValue}
         min={0}
-        type="number"
         variant={variant}
       />
 
-      <Field
+      <CurrencyField
         name="allocation"
         variant="outline"
         placeholder="Stake"

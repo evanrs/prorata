@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { NumberInput, NumberInputField } from '@chakra-ui/react'
-import { useDebounce, useDebouncedCallback } from 'use-debounce'
+import { useDebounce } from 'use-debounce'
 import currency from 'currency.js'
 
 import { useAutoFocus } from '../client'
 import { FieldProps, fieldStyleProps } from './field'
 
-export type NumberProps = Parameters<typeof NumberInput>[0] & { type: 'number' }
+type NumberProps = Parameters<typeof NumberInput>[0]
 
-export const NumberField: React.FC<NumberProps & FieldProps> = (props) => {
+export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
   const { name, value, set, autoFocus, ...rest } = props
   const [formatted, setFormatted] = useState(() => {
     return value ? format(value) : ''
@@ -17,7 +17,6 @@ export const NumberField: React.FC<NumberProps & FieldProps> = (props) => {
 
   const [nextValue, { flush }] = useDebounce(parse(formatted) ?? value, 1000)
   useEffect(() => {
-    console.log({ nextValue })
     if (set && value !== nextValue) {
       set(name, nextValue)
     }
@@ -32,7 +31,7 @@ export const NumberField: React.FC<NumberProps & FieldProps> = (props) => {
       onBlur={flush}
       onChange={(raw: string) => setFormatted(format(raw))}
     >
-      <NumberInputField {...fieldStyleProps} />
+      <NumberInputField {...fieldStyleProps} textAlign="right" />
     </NumberInput>
   )
 }

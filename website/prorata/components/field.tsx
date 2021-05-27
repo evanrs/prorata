@@ -9,7 +9,10 @@ export type FieldProps = {
   set?: Setter
   onChange?: void
 }
-export type Setter<K = string | number, V = string | number> = (name: K, value: V) => void
+export type Setter<K = string | number, V = string | number | undefined> = (
+  name: K,
+  value: V,
+) => void
 
 export const fieldStyleProps = {
   variant: 'filled',
