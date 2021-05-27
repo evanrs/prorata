@@ -3,7 +3,7 @@ import { NumberInput, NumberInputField } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 import currency from 'currency.js'
 
-import { useLayoutEffect, useAutoFocus, useKeyQueue } from '../client'
+import { useLayoutEffect, useAutoFocus } from '../client'
 import { FieldProps, fieldStyleProps } from './field'
 
 type NumberProps = Parameters<typeof NumberInput>[0]
@@ -32,8 +32,6 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
 
   // Maintain caret position between updates
   const setCaret = useCaret(ref, formatted.length)
-  // Append valid characters not included in onChange
-  const onKeyDown = useDroppedKeys(setFormatted)
 
   return (
     <NumberInput
@@ -43,7 +41,6 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
       name={name}
       value={formatted}
       onBlur={flush}
-      onKeyDown={onKeyDown}
       onChange={(raw: string) => {
         // remove all non-numeric characters and format
         const next = format(raw.replace(/[^0-9]/g, ''))
@@ -92,11 +89,6 @@ function parse(formatted: string) {
   }
 }
 
-function parseDecimal(str: string) {
-  const index = str.lastIndexOf('.')
-  return index >= 0 ? str.substring(index) : ''
-}
-
 function useCaret(ref: RefObject<HTMLInputElement>, initialCaret = 0) {
   // Store the caret position
   const [caret, setCaret] = useState(initialCaret)
@@ -109,18 +101,4 @@ function useCaret(ref: RefObject<HTMLInputElement>, initialCaret = 0) {
   }, [caret])
 
   return setCaret
-}
-
-// an attempt to allow dropped commas and period through
-function useDroppedKeys(update: (updater: (str: string) => string) => void) {
-  const [keys, onKeyQueue, onKeyFlush] = useKeyQueue<',' | '.'>((key) => {
-    return key === ',' || key === '.'
-  })
-  useEffect(() => {
-    if (keys.length) {
-      update((str) => str + keys.join(''))
-      onKeyFlush()
-    }
-  }, [keys])
-  return onKeyQueue
 }
