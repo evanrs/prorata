@@ -6,7 +6,7 @@ import { Home } from '../../pages'
 import { render, fireEvent, waitFor, screen } from '../tools'
 import { data } from '../data'
 
-describe('Home page', () => {
+xdescribe('Home page', () => {
   it('matches snapshot', async () => {
     const result = render(<Home />, {})
     await waitFor(() => screen.getByText('Investor A'))

@@ -1,5 +1,5 @@
 import { AllocationRequest } from '../../shared'
-import { allocate } from '../../server'
+import { allocate } from '../../backend'
 import { data, outputFor } from '../data'
 
 describe('Proration', () => {
@@ -17,7 +17,7 @@ describe('Proration', () => {
           { name: 'b', requested_amount: 25, average_amount: 25 },
           { name: 'c', requested_amount: 25, average_amount: 25 },
         ],
-      })
+      }),
     ).toEqual({ a: 100, b: 25, c: 25 })
 
     expect(
@@ -28,14 +28,11 @@ describe('Proration', () => {
           { name: 'b', requested_amount: 25, average_amount: 24 },
           { name: 'c', requested_amount: 25, average_amount: 25 },
         ],
-      })
+      }),
     ).toEqual({ a: 100, b: 24, c: 25 })
   })
 })
 
-function resultFor({
-  allocation_amount: total,
-  investor_amounts: pool,
-}: AllocationRequest) {
+function resultFor({ allocation_amount: total, investor_amounts: pool }: AllocationRequest) {
   return outputFor({ allocations: allocate(pool, total) })
 }

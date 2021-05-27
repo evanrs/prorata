@@ -1,6 +1,6 @@
 import Fastify from 'fastify'
 import { NextApiHandler } from 'next'
-import { registerProrateRoute } from '../../server'
+import { registerProrateRoute } from '../../backend'
 
 const app = Fastify({ logger: { prettyPrint: true } })
 app.register(registerProrateRoute, { prefix: '/api' })

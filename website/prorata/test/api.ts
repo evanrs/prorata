@@ -1,8 +1,6 @@
-// test/server.js
-
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { allocate } from '../server'
+import { allocate } from '../backend'
 
 import { AllocationRequest, AllocationResponse } from '../shared'
 
@@ -19,16 +17,6 @@ const api = setupServer(
     }
 
     return res(ctx.json(response))
-  }),
-
-  rest.post('*/prorate', (_req, res, ctx) => {
-    console.log({ route: '/prorate' })
-    return res(ctx.json({ route: '/prorate' }))
-  }),
-
-  rest.post('*', (_req, res, ctx) => {
-    console.log({ route: '*' })
-    return res(ctx.json({ route: '*' }))
   }),
 )
 
