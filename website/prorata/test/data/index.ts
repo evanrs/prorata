@@ -1,4 +1,4 @@
-import { AllocationRequest, AllocationResponse, InvestorAllocation } from '../../shared'
+import { AllocationRequest, AllocationResponse, InvestorAllocation } from '../../common'
 
 import complex_1_input from './complex_1_input.json'
 import complex_1_output from './complex_1_output.json'

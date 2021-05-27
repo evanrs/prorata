@@ -2,7 +2,7 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { allocate } from '../backend'
 
-import { AllocationRequest, AllocationResponse } from '../shared'
+import { AllocationRequest, AllocationResponse } from '../common'
 
 import { data } from './data'
 

@@ -3,7 +3,7 @@ import { Flex, Grid, GridProps, Heading } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 
 import { Storage } from '../frontend'
-import { ajv, AllocationRequest, AllocationResponse } from '../shared'
+import { ajv, AllocationRequest, AllocationResponse } from '../common'
 
 import { CurrencyField } from './currency-field'
 import { InvestorRequestForm, InvestorUpdateHandler } from './investor-request-form'

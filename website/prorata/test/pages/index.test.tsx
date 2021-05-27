@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 
-import { AllocationRequest, AllocationResponse } from '../../shared'
+import { AllocationRequest, AllocationResponse } from '../../common'
 import { Home } from '../../pages'
 import { render, fireEvent, waitFor, screen } from '../tools'
 import { data } from '../data'

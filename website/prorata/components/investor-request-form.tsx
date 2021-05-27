@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { Button, Grid } from '@chakra-ui/react'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 
-import { ajv, AllocationResponse, InvestorRequest } from '../shared'
+import { ajv, AllocationResponse, InvestorRequest } from '../common'
 import { Field, Setter } from './field'
 import { CurrencyField } from './currency-field'
 

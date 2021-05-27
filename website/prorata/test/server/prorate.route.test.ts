@@ -1,4 +1,4 @@
-import type { AllocationRequest } from '../../shared'
+import type { AllocationRequest } from '../../common'
 
 import { data } from '../data'
 import { createInjector } from '../tools'
