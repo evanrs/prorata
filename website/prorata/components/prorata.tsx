@@ -5,7 +5,6 @@ import { useDebounce } from 'use-debounce'
 import { Storage } from '../client'
 import { ajv, AllocationRequest, AllocationResponse } from '../shared'
 
-import { Field } from './field'
 import { CurrencyField } from './currency-field'
 import { InvestorRequestForm, InvestorUpdateHandler } from './investor-request-form'
 

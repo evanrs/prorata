@@ -34,11 +34,13 @@ export const Home: NextPage<HomeProps> = (_props) => {
         <Flex
           direction="column"
           background={useColorModeValue('grey.100', 'grey.700')}
-          p={[2, 4, 4, 8, 12]}
-          width="max-content"
-          maxWidth="68rem"
+          pl={[2, 4, 4, 6, 8]}
+          pr={[1, 1, 2, 4, 4]}
+          width="100%"
+          maxWidth={['48rem', '48rem', '54rem', '58rem']}
+          transitionProperty="max-width"
+          transitionDuration="normal"
         >
-          {/* <Heading size="lg">Prorata</Heading> */}
           <Prorata allocations={output?.allocations} allocationFor={setInput}></Prorata>
         </Flex>
       </Flex>
