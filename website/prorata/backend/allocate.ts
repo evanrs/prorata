@@ -11,32 +11,36 @@ type AllocatedInvestor = InvestorRequest &
   }
 
 export function allocate(pool: InvestorRequest[], amount: number) {
+  // work in cents
+  amount *= 100
+  pool = pool.map(({ name, average_amount, requested_amount }) => {
+    average_amount *= 100
+    requested_amount *= 100
+
+    return { name, average_amount, requested_amount }
+  })
+
+  // rank investors by historical average
   const ranked = ranksFor(pool).map((investor) => {
+    // allocate by their ratio relative to the cohorts average
     return setAllocation(investor, amount * investor.status)
   })
 
+  // find remainder after allocation
   const unallocated = amount - sum(ranked.map((v) => v.allocation))
+  // find the total of the remaining cohort seeking allocation
   const unallocatedInvestorsDivisor = sum(
     ranked.map((investor) => (isAllocated(investor) ? 0 : investor.status)),
   )
 
-  const allocated = ranked.map((investor) => {
+  return ranked.map((investor) => {
+    // allocate the remainder to investors by their status
     const allocation = isAllocated(investor)
       ? investor.allocation
       : investor.allocation + unallocated * (investor.status / unallocatedInvestorsDivisor)
 
     return setAllocation(investor, correctFloatingPoint(allocation))
   })
-
-  // verify that we're not selling more than we have
-  const total = sum(allocated.map((v) => v.allocation))
-  if (total > amount) {
-    // remove from investor with the lowest status
-    const [lowest] = allocated.sort((a, b) => a.status - b.status)
-    lowest.allocation -= total - amount
-  }
-
-  return allocated
 }
 
 function ranksFor(pool: InvestorRequest[]): RankedInvestor[] {
@@ -60,6 +64,8 @@ function isAllocated(investor: AllocatedInvestor) {
 }
 
 export function correctFloatingPoint(v: number) {
-  // return Math.round(v * 100) / 100
-  return Number(parseFloat(`${v}`).toPrecision(4))
+  if (v % 1) {
+    v = Number(parseFloat(`${v}`).toPrecision(10))
+  }
+  return Number(parseFloat(`${v / 100}`).toPrecision(8))
 }
