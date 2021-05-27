@@ -46,8 +46,8 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
   return (
     <Grid
       as="form"
-      my=".5rem"
-      gap={2}
+      my={2}
+      gap={[1, 1, 2, 2]}
       templateColumns="1fr 1fr 1fr minmax(4.5rem, .75fr) 3rem"
       onSubmit={(event) => {
         event.preventDefault()
