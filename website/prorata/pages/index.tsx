@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
+import { Flex, useColorModeValue } from '@chakra-ui/react'
 
 import { AllocationRequest, AllocationResponse } from '../shared'
 import { fetch, useAsyncState } from '../client'
 import { Prorata } from '../components'
-import { Flex, useColorModeValue } from '@chakra-ui/react'
 
 export type HomeProps = Record<string, unknown>
 
@@ -34,8 +34,9 @@ export const Home: NextPage<HomeProps> = (_props) => {
         <Flex
           direction="column"
           background={useColorModeValue('grey.100', 'grey.700')}
-          p={8}
-          rounded={8}
+          p={[2, 4, 4, 8, 12]}
+          width="max-content"
+          maxWidth="68rem"
         >
           {/* <Heading size="lg">Prorata</Heading> */}
           <Prorata allocations={output?.allocations} allocationFor={setInput}></Prorata>
