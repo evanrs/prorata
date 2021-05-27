@@ -2,8 +2,8 @@ import React, { useEffect, useState, useCallback, EffectCallback } from 'react'
 import { Flex, Grid, GridProps, Heading } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 
-import { Storage } from '../frontend'
-import { ajv, AllocationRequest, AllocationResponse } from '../common'
+import { Storage } from '..'
+import { ajv, AllocationRequest, AllocationResponse } from '../../common'
 
 import { CurrencyField } from './currency-field'
 import { InvestorRequestForm, InvestorUpdateHandler } from './investor-request-form'

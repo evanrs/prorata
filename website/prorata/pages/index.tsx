@@ -1,11 +1,10 @@
 import { useState } from 'react'
+import { useColorModeValue, Flex } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import Head from 'next/head'
-import { Flex, useColorModeValue } from '@chakra-ui/react'
 
 import { AllocationRequest, AllocationResponse } from '../common'
-import { fetch, useAsyncState } from '../frontend'
-import { Prorata } from '../components'
+import { fetch, useAsyncState, Prorata } from '../frontend'
 
 export type HomeProps = Record<string, unknown>
 

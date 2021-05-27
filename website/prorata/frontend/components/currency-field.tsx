@@ -3,7 +3,7 @@ import { NumberInput, NumberInputField } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 import currency from 'currency.js'
 
-import { useLayoutEffect, useAutoFocus } from '../frontend'
+import { useLayoutEffect, useAutoFocus } from '..'
 import { FieldProps, fieldStyleProps } from './field'
 
 type NumberProps = Parameters<typeof NumberInput>[0]
