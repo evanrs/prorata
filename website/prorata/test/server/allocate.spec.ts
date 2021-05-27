@@ -19,17 +19,41 @@ describe('Proration', () => {
         ],
       }),
     ).toEqual({ a: 100, b: 25, c: 25 })
+  })
 
+  it('does not over allocate', () => {
+    expect(
+      resultFor({
+        allocation_amount: 149,
+        investor_amounts: [
+          { name: 'a', requested_amount: 100, average_amount: 100000 },
+          { name: '_', requested_amount: 0, average_amount: 24 },
+          { name: 'c', requested_amount: 25, average_amount: 25 },
+        ],
+      }),
+    ).toEqual({ a: 100, _: 0, c: 25 })
+  })
+
+  it('allocates new investors by pool size', () => {
     expect(
       resultFor({
         allocation_amount: 149,
         investor_amounts: [
           { name: 'a', requested_amount: 100, average_amount: 100000 },
           { name: 'b', requested_amount: 25, average_amount: 24 },
-          { name: 'c', requested_amount: 25, average_amount: 25 },
+          { name: '_', requested_amount: 50, average_amount: 0 },
         ],
       }),
-    ).toEqual({ a: 100, b: 24, c: 25 })
+    ).toEqual(
+      resultFor({
+        allocation_amount: 149,
+        investor_amounts: [
+          { name: 'a', requested_amount: 100, average_amount: 100000 },
+          { name: 'b', requested_amount: 25, average_amount: 24 },
+          { name: '_', requested_amount: 50, average_amount: 50 / 3 },
+        ],
+      }),
+    )
   })
 })
 

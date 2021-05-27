@@ -10,12 +10,24 @@ type PartialAllocationRequest = {
 
 describe('Prorate Route', () => {
   // will make calls to the api as POST /prorate
-  const inject = createInjector<PartialAllocationRequest | undefined>({
+  const inject = createInjector<PartialAllocationRequest>({
     method: 'POST',
     path: '/prorate',
   })
 
-  test('properly validates input', async () => {
+  it('handles new investors', async () => {
+    const newbies = await inject.snapshotFor({
+      allocation_amount: 1,
+      investor_amounts: [
+        { name: 'a', average_amount: 0, requested_amount: 1 },
+        { name: 'b', average_amount: 0, requested_amount: 1 },
+      ],
+    })
+
+    expect(newbies).toMatchSnapshot('Logically Impossible')
+  })
+
+  it('properly validates input', async () => {
     const [sample] = data
 
     // test that it works as excepted, we test the logic elsewhere
@@ -36,17 +48,5 @@ describe('Prorate Route', () => {
         investor_amounts: [{ requested_amount: 0 }],
       }),
     ).toMatchSnapshot('Zero Requested')
-
-    // TODO validate its error handling for logical issues
-    const invalid = await inject.snapshotFor({
-      allocation_amount: 1,
-      investor_amounts: [
-        { name: 'a', average_amount: 0, requested_amount: 1 },
-        { name: 'b', average_amount: 0, requested_amount: 1 },
-      ],
-    })
-
-    expect(invalid).toMatchSnapshot('Logically Impossible')
-    expect(invalid.error).toBe('Internal Server Error')
   })
 })

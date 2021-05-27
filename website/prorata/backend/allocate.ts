@@ -11,11 +11,17 @@ type AllocatedInvestor = InvestorRequest &
   }
 
 export function allocate(pool: InvestorRequest[], amount: number) {
-  // work in cents
+  // convert to cents
   amount *= 100
   pool = pool.map(({ name, average_amount, requested_amount }) => {
+    // convert to cents
     average_amount *= 100
     requested_amount *= 100
+
+    // do not skew the allocation by excessive requests
+    requested_amount = Math.min(requested_amount, amount)
+    // choose a fair value for new investors with no history
+    average_amount ||= requested_amount / pool.length
 
     return { name, average_amount, requested_amount }
   })
@@ -39,7 +45,18 @@ export function allocate(pool: InvestorRequest[], amount: number) {
       ? investor.allocation
       : investor.allocation + unallocated * (investor.status / unallocatedInvestorsDivisor)
 
-    return setAllocation(investor, correctFloatingPoint(allocation))
+    // convert to dollars
+    investor.average_amount /= 100
+    investor.requested_amount /= 100
+    investor = setAllocation(investor, correctFloatingPoint(allocation))
+
+    if (investor.requested_amount < investor.allocation) {
+      throw new Error(
+        `Investor requested ${investor.requested_amount} but received ${investor.allocation}`,
+      )
+    }
+
+    return investor
   })
 }
 
@@ -60,6 +77,7 @@ function setAllocation<T extends InvestorRequest>(investor: T, value: number) {
 }
 
 function isAllocated(investor: AllocatedInvestor) {
+  // verify the customer is fully allocated
   return investor.allocation === investor.requested_amount
 }
 

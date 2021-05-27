@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Prorate Route handles new investors: Logically Impossible 1`] = `
+Object {
+  "allocations": Array [
+    Object {
+      "allocation": 0.5,
+      "name": "a",
+    },
+    Object {
+      "allocation": 0.5,
+      "name": "b",
+    },
+  ],
+}
+`;
+
 exports[`Prorate Route properly validates input: Empty Payload 1`] = `
 Object {
   "error": "Bad Request",
@@ -10,9 +25,16 @@ Object {
 
 exports[`Prorate Route properly validates input: Logically Impossible 1`] = `
 Object {
-  "error": "Internal Server Error",
-  "message": "\\"allocation\\" is required!",
-  "statusCode": 500,
+  "allocations": Array [
+    Object {
+      "allocation": 0.5,
+      "name": "a",
+    },
+    Object {
+      "allocation": 0.5,
+      "name": "b",
+    },
+  ],
 }
 `;
 
