@@ -91,7 +91,6 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
         placeholder="Stake"
         readOnly
         value={allocation?.allocation ?? ''}
-        textAlign="right"
         display={name === 'new' ? 'none' : 'initial'}
       />
 

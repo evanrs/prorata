@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { NumberInput, NumberInputField } from '@chakra-ui/react'
-import { useDebounce, useDebouncedCallback } from 'use-debounce'
+import { useDebounce } from 'use-debounce'
 import currency from 'currency.js'
 
 import { useAutoFocus } from '../client'
@@ -17,7 +17,6 @@ export const NumberField: React.FC<NumberProps & FieldProps> = (props) => {
 
   const [nextValue, { flush }] = useDebounce(parse(formatted) ?? value, 1000)
   useEffect(() => {
-    console.log({ nextValue })
     if (set && value !== nextValue) {
       set(name, nextValue)
     }
