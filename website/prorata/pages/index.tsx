@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 import { AllocationRequest, AllocationResponse } from '../shared'
 import { fetch, useAsyncState } from '../client'
 import { Prorata } from '../components'
-import { Flex, Heading, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Flex, useColorModeValue } from '@chakra-ui/react'
 
 export type HomeProps = Record<string, unknown>
 
@@ -27,6 +26,10 @@ export const Home: NextPage<HomeProps> = (_props) => {
 
   return (
     <>
+      <Head>
+        <title>prorata</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Flex height="100vh" alignItems="center" justifyContent="center">
         <Flex
           direction="column"
