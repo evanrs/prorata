@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useState } from 'react'
+import React, { RefObject, useCallback, useEffect, useState } from 'react'
 import { NumberInput, NumberInputField } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 import currency from 'currency.js'
@@ -9,7 +9,7 @@ import { FieldProps, fieldStyleProps } from './field'
 type NumberProps = Parameters<typeof NumberInput>[0]
 
 export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
-  const { name, value, set, autoFocus, onChange, placeholder, ...rest } = props
+  const { name, value, set, autoFocus, onChange: _, placeholder, ...rest } = props
   const { ref } = useAutoFocus(autoFocus)
 
   // Store the formatted value
@@ -32,6 +32,22 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
 
   // Maintain caret position between updates
   const setCaret = useCaret(ref, formatted.length)
+  const onChange = useCallback(
+    (raw: string) => {
+      // remove all non-numeric characters and format
+      const next = format(raw.replace(/[^0-9]/g, ''))
+      const diff = next.length - formatted.length > 1 ? 1 : 0
+      const caret = ref.current?.selectionStart ?? 0
+      // update only when value changes
+      if (next !== formatted) {
+        setCaret(caret + diff)
+        setFormatted(next)
+      }
+    },
+    [formatted],
+  )
+  // promote change on submission by enter
+  const onEnter = ({ key }: React.KeyboardEvent<HTMLInputElement>) => key === 'Enter' && flush()
 
   return (
     <NumberInput
@@ -41,17 +57,7 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
       name={name}
       value={formatted}
       onBlur={flush}
-      onChange={(raw: string) => {
-        // remove all non-numeric characters and format
-        const next = format(raw.replace(/[^0-9]/g, ''))
-        const diff = next.length - formatted.length > 1 ? 1 : 0
-        const caret = ref.current?.selectionStart ?? 0
-        // update only when value changes
-        if (next !== formatted) {
-          setCaret(caret + diff)
-          setFormatted(next)
-        }
-      }}
+      onChange={onChange}
     >
       <NumberInputField
         {...fieldStyleProps}
@@ -61,6 +67,9 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
         px={0}
         paddingInlineStart={fieldStyleProps.px}
         paddingInlineEnd={fieldStyleProps.px}
+        onKeyDown={onEnter}
+        // TODO use native onChange handler
+        // onChange={(event) => {}}
       />
     </NumberInput>
   )
