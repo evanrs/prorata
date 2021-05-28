@@ -11,9 +11,7 @@ const extendedTheme = extendTheme({
     heading: `Poppins, ${theme.fonts.heading}`,
     body: `Ubuntu Mono, Poppins, ${theme.fonts.body}`,
   },
-  config: {
-    useSystemColorMode: true,
-  },
+  config: { useSystemColorMode: true },
 })
 
 function App({ Component, pageProps }: AppProps) {
