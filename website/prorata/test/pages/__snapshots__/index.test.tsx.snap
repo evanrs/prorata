@@ -62,10 +62,10 @@ exports[`Home page matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="css-apl5pd"
+    class="css-1afs650"
   >
     <a
-      class="chakra-button css-9njja2"
+      class="chakra-button css-pwuedh"
       href="mailto:me@evanrs.com?subject=Evan%2C%20nice%20work%20on%20Prorata%20%F0%9F%91%8F&body=Hey%20Evan%2C%0A%0AI%20just%20wanted%20say%20%E2%80%A6&cc=evanrs@gmail.com"
     >
       <svg
@@ -89,7 +89,7 @@ exports[`Home page matches snapshot 1`] = `
     </a>
   </div>
   <div
-    class="css-u515p2"
+    class="css-axhu1e"
   >
     <div
       class="css-1ms4eh"
