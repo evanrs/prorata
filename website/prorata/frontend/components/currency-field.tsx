@@ -118,6 +118,10 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
   )
 }
 
+CurrencyField.defaultProps = {
+  max: Number.MAX_SAFE_INTEGER,
+}
+
 function format(raw: string | number | currency) {
   let [dollars, cents] = currency(raw).format({ pattern: '#' }).split('.')
 

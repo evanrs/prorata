@@ -110,6 +110,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
           readOnly
           value={allocations?.reduce((a, b) => a + b.allocation, 0)}
           opacity={allocations?.length ? 1 : 0}
+          hidden={!allocations?.length}
         />
 
         <div />

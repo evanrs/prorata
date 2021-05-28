@@ -87,7 +87,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
         name="requested_amount"
         value={state?.requested_amount}
         set={setValue}
-        min={0}
+        min={InvestorRequest.properties.requested_amount.minimum ?? 1}
         variant={variant}
       />
 
@@ -96,7 +96,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
         name="average_amount"
         value={state?.average_amount}
         set={setValue}
-        min={0}
+        min={InvestorRequest.properties.average_amount.minimum ?? 0}
         variant={variant}
       />
 
