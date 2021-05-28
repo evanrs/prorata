@@ -33,7 +33,8 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
   useEffect(() => {
     if (set) {
       // clear the value when empty
-      if (formatted === '') return set(name)
+      // TODO how did it get empty?
+      if (formatted === '' && value !== 0) return set(name)
       // check that we can parse their input, then update
       const next = parse(formatted)
       if (next != null && next !== value) {
