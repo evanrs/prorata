@@ -28,9 +28,14 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
   const verified = useMemo(() => isInvestorRequest(state) && state, [state])
 
   const variant = name === 'new' ? 'outline' : 'filled'
+  const colorScheme = useColorModeValue('messenger', 'gray')
 
-  const setValue: Setter = useCallback((name, value) => {
-    setState((state) => ({ ...state, [name]: value }))
+  const setValue: Setter = useCallback((fieldName, value) => {
+    setState((state) => {
+      // do not populate an empty object with empty values
+      if (state == null && value == null) return state
+      else return { ...state, [fieldName]: value }
+    })
   }, [])
 
   useEffect(() => {
@@ -62,6 +67,11 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
         }
       }}
     >
+      {/*
+        really just trying things here for the name blur bug …
+        TODO remove this I gues ?                                    */}
+      <input autoComplete="false" name="hidden" hidden />
+
       <Field
         autoComplete="off"
         autoFocus={autoFocus}
@@ -101,7 +111,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
 
       {request == null ? (
         <Button
-          colorScheme={verified ? useColorModeValue('messenger', 'gray') : 'gray'}
+          colorScheme={verified ? colorScheme : 'gray'}
           type="submit"
           variant="solid"
           disabled={!verified}
