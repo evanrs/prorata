@@ -79,12 +79,14 @@ export const Supervisor = ({ repeat, reset }: SupervisorProps) => {
       </Layout>
       <Layout position="bottom" justifyContent="flex-end" {...onHover} sx={{ ...sx, ...bottom }}>
         <Button
-          {...props}
           color=""
+          variant="ghost"
           width="max-content"
+          py={2}
           px={4}
           as="a"
           href={mailto}
+          size="lg"
           sx={{
             ':not(:hover)': {
               transition: 'all',
@@ -97,7 +99,7 @@ export const Supervisor = ({ repeat, reset }: SupervisorProps) => {
         >
           <ChatIcon className="surprise" />
           <Flex pr={3} />
-          <Heading size="xs">Evan Schneider</Heading>
+          <Heading size="sm">Evan Schneider</Heading>
         </Button>
       </Layout>
     </>
