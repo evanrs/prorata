@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input } from '@chakra-ui/react'
-import { useAutoFocus } from '..'
+import { useAutoFocus } from '../hooks'
 
 export type InputProps = Parameters<typeof Input>[0] & { type?: string }
 export type FieldProps = {
@@ -11,7 +11,7 @@ export type FieldProps = {
 }
 export type Setter<K = string | number, V = string | number | undefined> = (
   name: K,
-  value: V,
+  value?: V,
 ) => void
 
 export const fieldStyleProps = {

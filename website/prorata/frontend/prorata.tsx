@@ -56,9 +56,13 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
     setInvestorAmounts((investor_amounts) => {
       if (name === 'delete') {
         investor_amounts = investor_amounts.filter((v) => v !== value)
-      } else {
-        investor_amounts = [...investor_amounts]
-        investor_amounts[name === 'new' ? investor_amounts.length : name] = value
+      } else if (value) {
+        const index = name === 'new' ? investor_amounts.length : name
+        investor_amounts = [
+          ...investor_amounts.slice(0, index),
+          value,
+          ...investor_amounts.slice(index + 1),
+        ]
       }
 
       return investor_amounts
@@ -146,6 +150,8 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
 
       {/*  new investor request form */}
       <InvestorRequestForm
+        // TODO drop the use of key here when handoff is complete
+        key={`new:${investor_amounts.length}`}
         name="new"
         onUpdate={onInvestorUpdate}
         autoFocus={autoFocused === 'investor-request-form'}

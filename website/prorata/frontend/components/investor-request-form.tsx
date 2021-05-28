@@ -5,6 +5,7 @@ import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { ajv, AllocationResponse, InvestorRequest } from '../../common'
 import { Field, Setter } from './field'
 import { CurrencyField } from './currency-field'
+import { isNotEqual } from '../tools'
 
 export const isInvestorRequest = ajv.compile<InvestorRequest>(InvestorRequest)
 
@@ -36,17 +37,23 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
 
   useEffect(() => {
     if (submitted && verified && request !== verified) {
-      onUpdate(name, verified)
+      if (isNotEqual(verified, request)) {
+        onUpdate(name, verified)
+      }
+
       if (name === 'new') {
         setSubmitted(false)
         setState({})
       }
+    } else if (name !== 'new' && submitted && !verified) {
+      onUpdate(name, state as InvestorRequest)
     }
   }, [submitted, verified])
 
   return (
     <Grid
       as="form"
+      autoComplete="off"
       my={2}
       gap={[1, 1, 2, 2]}
       templateColumns="1fr 1fr 1fr minmax(4.5rem, .75fr) 3rem"
@@ -59,6 +66,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
       }}
     >
       <Field
+        autoComplete="off"
         autoFocus={autoFocus}
         placeholder="Name"
         name="name"
