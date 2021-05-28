@@ -113,6 +113,7 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
         paddingInlineEnd={fieldStyleProps.px}
         onChange={onChange}
         onKeyDown={onKeyDown}
+        tabIndex={rest.tabIndex ?? rest.readOnly ? -1 : undefined}
       />
     </NumberInput>
   )

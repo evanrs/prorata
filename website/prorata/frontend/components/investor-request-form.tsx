@@ -5,7 +5,7 @@ import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { ajv, AllocationResponse, InvestorRequest } from '../../common'
 import { Field, Setter } from './field'
 import { CurrencyField } from './currency-field'
-import { isNotEqual } from '../tools'
+import { isNotEqual, opacityTransistionFor } from '../tools'
 
 export type InvestorProps = {
   autoFocus?: boolean
@@ -106,7 +106,9 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
         placeholder="Stake"
         readOnly
         value={allocation?.allocation ?? ''}
-        display={name === 'new' ? 'none' : 'initial'}
+        disabled={allocation?.allocation == null}
+        display={name === 'new' ? 'none' : undefined}
+        sx={opacityTransistionFor(allocation?.allocation != null ? 1 : name !== 'new' ? 0.3 : 0)}
       />
 
       {request == null ? (
@@ -116,7 +118,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
           variant="solid"
           disabled={!verified}
         >
-          <AddIcon fontSize={14} opacity={verified ? 1 : 0.5} />
+          <AddIcon fontSize={14} opacity={verified ? 1 : 0.2} />
         </Button>
       ) : (
         <Button

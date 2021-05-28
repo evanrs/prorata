@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback, EffectCallback } from 'react'
-import { Flex, Grid, GridProps, Heading } from '@chakra-ui/react'
+import { Flex, Grid, GridProps, Heading, SystemStyleObject } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 
 import { Storage } from '.'
 import { ajv, AllocationRequest, AllocationResponse } from '../common'
 
 import { CurrencyField, InvestorRequestForm, InvestorUpdateHandler } from './components'
+import { opacityTransistionFor } from './tools'
 
 export type ProrataProps = {
   allocations?: AllocationResponse['allocations']
@@ -79,7 +80,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
         </Heading>
         <div />
         <div />
-        <Heading size="xs" my={1} opacity={allocations?.length ? 1 : 0}>
+        <Heading size="xs" my={1} sx={opacityTransistionFor(allocations?.length, 'slower')}>
           Total Allocated
         </Heading>
       </Table>
@@ -109,8 +110,8 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
           variant="flushed"
           readOnly
           value={allocations?.reduce((a, b) => a + b.allocation, 0)}
-          opacity={allocations?.length ? 1 : 0}
-          hidden={!allocations?.length}
+          disabled={!allocations?.length}
+          sx={opacityTransistionFor(allocations?.length)}
         />
 
         <div />
