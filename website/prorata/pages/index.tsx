@@ -55,7 +55,7 @@ const Layout: React.FC = ({ children }) => (
     width="100%"
     alignItems="center"
     justifyContent="center"
-    // background={useColorModeValue('white', '#20165C')}
+    background={useColorModeValue('#FFF', '#20165C')}
   >
     <Flex
       direction="column"

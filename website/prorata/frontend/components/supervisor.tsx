@@ -23,7 +23,7 @@ export const Supervisor = ({ repeat, reset }: SupervisorProps) => {
   const [hover, setHover] = useState(true)
   const { colorMode, toggleColorMode } = useColorMode()
 
-  const { top, bottom } = useDefaultTheme(hover)
+  const { top, bottom } = usePurpleTheme(hover)
   const sx: SystemStyleObject = {
     willChange: 'color',
     transitionProperty: 'color',
