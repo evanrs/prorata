@@ -96,6 +96,11 @@ exports[`Prorata matches snapshot 1`] = `
       class="css-1l4fvs0"
     >
       <input
+        autocomplete="false"
+        hidden=""
+        name="hidden"
+      />
+      <input
         autocomplete="off"
         class="chakra-input css-taf3kg"
         name="name"
