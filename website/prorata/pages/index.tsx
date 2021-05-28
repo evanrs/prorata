@@ -50,10 +50,15 @@ export const Home: NextPage<HomeProps> = (_) => {
 }
 
 const Layout: React.FC = ({ children }) => (
-  <Flex height="100vh" alignItems="center" justifyContent="center">
+  <Flex
+    height="100%"
+    width="100%"
+    alignItems="center"
+    justifyContent="center"
+    // background={useColorModeValue('white', '#20165C')}
+  >
     <Flex
       direction="column"
-      background={useColorModeValue('grey.100', 'grey.700')}
       pl={[2, 4, 4, 6, 8]}
       pr={[1, 1, 2, 4, 4]}
       width="100%"

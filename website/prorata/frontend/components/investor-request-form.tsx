@@ -102,7 +102,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
 
       <CurrencyField
         name="allocation"
-        variant="outline"
+        variant="flushed"
         placeholder="Stake"
         readOnly
         value={allocation?.allocation ?? ''}

@@ -89,7 +89,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
           placeholder="Allocation"
           name="allocation_amount"
           min={1}
-          variant={autoFocused === 'allocation' ? 'outline' : 'filled'}
+          variant={autoFocused === 'allocation' || !allocation_amount ? 'outline' : 'filled'}
           value={allocation_amount ? allocation_amount : ''}
           set={(_, value) => {
             setAllocationAmount(
@@ -106,8 +106,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
 
         <CurrencyField
           name="total"
-          variant="outline"
-          textAlign="right"
+          variant="flushed"
           readOnly
           value={allocations?.reduce((a, b) => a + b.allocation, 0)}
           opacity={allocations?.length ? 1 : 0}
