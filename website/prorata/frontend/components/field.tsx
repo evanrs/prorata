@@ -18,7 +18,7 @@ export type Setter<K = string | number, V = string | number | undefined> = (
 
 export const fieldStyleProps = {
   variant: 'filled',
-  fontSize: ['xs', 'xs', 13, 'sm'],
+  fontSize: ['2.5vw', 'xs', 'xs', 13, 'sm'],
   px: [2, 2, 2, 4],
 }
 

@@ -16,6 +16,11 @@ export type InvestorProps = {
 
 export type InvestorUpdateHandler = Setter<'new' | 'delete' | number, InvestorRequest>
 
+export const trashColumnSize = [1.5, 2, 3, 3]
+export const templateColumns = trashColumnSize.map(
+  (v) => `1fr 1fr 1fr minmax(5.5rem, .75fr) ${v}rem`,
+)
+
 export const InvestorRequestForm: React.FC<InvestorProps> = ({
   name,
   request,
@@ -58,7 +63,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
       autoComplete="off"
       my={2}
       gap={[1, 1, 2, 2]}
-      templateColumns="1fr 1fr 1fr minmax(4.5rem, .75fr) 3rem"
+      templateColumns={templateColumns}
       onSubmit={(event) => {
         event.preventDefault()
 
@@ -126,8 +131,10 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
           variant="ghost"
           onClick={() => onUpdate('delete', request)}
           sx={{ '> *': { opacity: 0.2 }, ':hover': { '> *': { opacity: 1 } } }}
+          paddingInline={0}
+          minWidth={trashColumnSize.map((v) => `${v}rem`)}
         >
-          <DeleteIcon />
+          <DeleteIcon boxSize={trashColumnSize.map((v) => Math.round(v) + 1)} />
         </Button>
       )}
 

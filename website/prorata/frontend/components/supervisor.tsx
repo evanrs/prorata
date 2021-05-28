@@ -91,15 +91,15 @@ type LayoutProps = Omit<Parameters<typeof Flex>[0], 'position'> & {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, position, ...props }) => {
-  props[position] = 3
+  props[position] = position === 'top' ? [3, 3, 3, 5] : [2, 3, 3, 5, 5]
 
   return (
     <Flex
       cursor="default"
       userSelect="none"
       position="fixed"
-      left={[2, 4, 4, 6, 8]}
-      right={[2, 4, 4, 6, 8]}
+      left={[2, 4, 4, 6, 6].map((v) => v + 4)}
+      right={[2, 4, 4, 6, 6]}
       alignItems="center"
       justifyContent="space-between"
       {...props}

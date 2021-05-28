@@ -1,11 +1,16 @@
 import React, { useEffect, useState, useCallback, EffectCallback } from 'react'
-import { Flex, Grid, GridProps, Heading, SystemStyleObject } from '@chakra-ui/react'
+import { Flex, Grid, GridProps, Heading } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 
 import { Storage } from '.'
 import { ajv, AllocationRequest, AllocationResponse } from '../common'
 
-import { CurrencyField, InvestorRequestForm, InvestorUpdateHandler } from './components'
+import {
+  CurrencyField,
+  InvestorRequestForm,
+  InvestorUpdateHandler,
+  templateColumns,
+} from './components'
 import { opacityTransistionFor } from './tools'
 
 export type ProrataProps = {
@@ -74,7 +79,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
 
   return (
     <Flex direction="column">
-      <Table my={0}>
+      <Table my={0} templateColumns={summaryColumns}>
         <Heading size="xs" my={1}>
           Total Available Allocation
         </Heading>
@@ -84,7 +89,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
           Total Allocated
         </Heading>
       </Table>
-      <Table>
+      <Table templateColumns={summaryColumns}>
         <CurrencyField
           autoFocus={autoFocused === 'allocation'}
           placeholder="Allocation"
@@ -118,7 +123,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
       </Table>
 
       {/*  investor request form headings */}
-      <Table my={0} mt=".5rem">
+      <Table my={0} mt=".5rem" templateColumns={headingColumns}>
         <Heading size="xs" mt={4} mb={1}>
           Investor Breakdown
         </Heading>
@@ -134,6 +139,8 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
           mb={1}
           textAlign="left"
           opacity={investor_amounts?.length ? 1 : 0}
+          display="flex"
+          justifyContent={['flex-end', 'initial']}
         >
           Investor Stake
         </Heading>
@@ -163,11 +170,14 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
   )
 }
 
+const summaryColumns = ['2fr 0fr 0fr 2fr 0rem', ...templateColumns.slice(1)]
+const headingColumns = ['max-content 0fr 0fr 1fr .5rem', ...templateColumns.slice(1)]
+
 const Table: React.FC<GridProps> = (props) => (
   <Grid
     my={2}
     gap={[1, 1, 2, 2]}
-    templateColumns="1fr 1fr 1fr minmax(4.5rem, .75fr) 3rem"
+    templateColumns={templateColumns}
     alignItems="flex-end"
     {...props}
   />
