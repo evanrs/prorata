@@ -3,9 +3,11 @@
 exports[`Investor Request Form matches snapshot 1`] = `
 <DocumentFragment>
   <form
+    autocomplete="off"
     class="css-1l4fvs0"
   >
     <input
+      autocomplete="off"
       class="chakra-input css-taf3kg"
       name="name"
       placeholder="Name"
@@ -78,7 +80,7 @@ exports[`Investor Request Form matches snapshot 1`] = `
       />
     </div>
     <button
-      class="chakra-button css-1xx8uq7"
+      class="chakra-button css-1fv4ia5"
       type="button"
     >
       <svg

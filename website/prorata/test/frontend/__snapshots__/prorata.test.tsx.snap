@@ -92,9 +92,11 @@ exports[`Prorata matches snapshot 1`] = `
       <div />
     </div>
     <form
+      autocomplete="off"
       class="css-1l4fvs0"
     >
       <input
+        autocomplete="off"
         class="chakra-input css-taf3kg"
         name="name"
         placeholder="Name"
@@ -168,7 +170,7 @@ exports[`Prorata matches snapshot 1`] = `
         type="submit"
       >
         <svg
-          class="chakra-icon css-1kzh3ar"
+          class="chakra-icon css-g7wnnj"
           focusable="false"
           viewBox="0 0 24 24"
         >
