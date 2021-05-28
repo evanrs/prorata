@@ -1,5 +1,4 @@
-Prompt
-~~~~~~
+# Prompt
 
 Suppose we discover a bug with our algorithm and investors for two deals had incorrect
 allocations. This means that some of the investors ended up investing more than they were allowed to
@@ -7,10 +6,12 @@ while others invested less than they were allowed to. One of deals happened two 
 other one happened two weeks ago. Please describe, in detail, how would you go about correcting this
 issue and how would you communicate this to the affected customers.
 
-Response
-~~~~~~~~
 
-# Technical Response
+
+# Response
+
+
+### Technical Response
 
 The first step with any bug prior to any work is to decide upon its severity. Once a severity is assigned we can then prioritize it against our in progress work. For any mission critical operation we would consider it to be Sev 1 — for a complete system failure we'd consider Sev X.
 
@@ -23,14 +24,14 @@ To start the work we must determine what _should_ have happened and formalize th
 After providing concrete expectations on the systems behavior we can begin to address the problem.
 
 
-# Customer Experience
+### Customer Experience
 
 In the meantime — while engineering is scrambling to address a Sev 1 error — we need to assure the customer our understanding for their grievance. [more]
 
 To the extent that we are able we must reverse the mistake. But, this is mediated by the severity of the issue. A less severe error is subject to the teams capacity and the value of amending the issue.
 
 
-# Response to the Customer
+### Response to the Customer
 
 Thank you for bringing this error to our attention. We've made this a top priority, we're doing everything we can to fix the issue going forward.
 
