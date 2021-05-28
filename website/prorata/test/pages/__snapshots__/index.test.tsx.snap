@@ -89,10 +89,10 @@ exports[`Home page matches snapshot 1`] = `
     </a>
   </div>
   <div
-    class="css-h74a88"
+    class="css-u515p2"
   >
     <div
-      class="css-1umrmxj"
+      class="css-1ms4eh"
     >
       <div
         class="css-j7qwjs"
@@ -140,7 +140,7 @@ exports[`Home page matches snapshot 1`] = `
           <div />
           <div />
           <div
-            class="chakra-numberinput css-mpussp"
+            class="chakra-numberinput css-1pjpsut"
             value=""
           >
             <input
