@@ -23,19 +23,12 @@ export const Supervisor = ({ repeat, reset }: SupervisorProps) => {
   const [hover, setHover] = useState(true)
   const { colorMode, toggleColorMode } = useColorMode()
 
+  const { top, bottom } = useDefaultTheme(hover)
   const sx: SystemStyleObject = {
     willChange: 'color',
     transitionProperty: 'color',
     transitionDuration: 'normal',
   }
-  const top = useColorModeValue(
-    { color: 'gray.400', ':hover': { color: 'gray.400' } },
-    { color: 'gray.600', ':hover': { color: 'gray.500' } },
-  )
-  const bottom = useColorModeValue(
-    { color: hover ? 'pink.400' : 'gray.200', ':hover': { color: 'gray.600' } },
-    { color: hover ? 'pink.200' : 'gray.700', ':hover': { color: 'gray.200' } },
-  )
 
   const props = {
     variant: 'ghost',
@@ -127,4 +120,31 @@ const Layout: React.FC<LayoutProps> = ({ children, position, ...props }) => {
       {children}
     </Flex>
   )
+}
+
+function useDefaultTheme(hover: boolean) {
+  const top = useColorModeValue(
+    { color: 'gray.400', ':hover': { color: 'gray.400' } },
+    { color: 'gray.600', ':hover': { color: 'gray.500' } },
+  )
+
+  const bottom = useColorModeValue(
+    { color: hover ? 'pink.400' : 'gray.200', ':hover': { color: 'gray.600' } },
+    { color: hover ? 'pink.200' : 'gray.700', ':hover': { color: 'gray.200' } },
+  )
+
+  return { top, bottom }
+}
+
+function usePurpleTheme(hover: boolean) {
+  const top = useColorModeValue(
+    { color: 'gray.400', ':hover': { color: 'gray.400' } },
+    { color: '#37259D', ':hover': { color: 'gray.500' } },
+  )
+  const bottom = useColorModeValue(
+    { color: hover ? 'pink.400' : 'gray.200', ':hover': { color: 'gray.600' } },
+    { color: hover ? 'pink.200' : '#2D1E7E', ':hover': { color: 'gray.200' } },
+  )
+
+  return { top, bottom }
 }
