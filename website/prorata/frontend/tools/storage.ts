@@ -13,5 +13,9 @@ export function Storage<T>(prefix?: string) {
       localStorage.setItem(keyFor(key), JSON.stringify(value))
       return value
     },
+
+    clear(key: string) {
+      localStorage.removeItem(keyFor(key))
+    },
   }
 }
