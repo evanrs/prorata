@@ -34,7 +34,7 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
   }, [])
 
   useEffect(() => {
-    if (submitted && verified && isNotEqual(verified, request)) {
+    if (submitted && verified && verified !== request && isNotEqual(verified, request)) {
       // update when they're diffferent
       onUpdate(name, verified)
       // reset the form when done
