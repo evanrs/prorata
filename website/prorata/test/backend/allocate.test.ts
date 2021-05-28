@@ -1,4 +1,4 @@
-import { AllocationRequest } from '../../shared'
+import { AllocationRequest } from '../../common'
 import { allocate } from '../../backend'
 import { data, outputFor } from '../data'
 

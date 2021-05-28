@@ -1,15 +1,17 @@
 import { useState } from 'react'
+import { useColorModeValue, Flex } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import Head from 'next/head'
-import { Flex, useColorModeValue } from '@chakra-ui/react'
 
-import { AllocationRequest, AllocationResponse } from '../shared'
-import { fetch, useAsyncState } from '../client'
-import { Prorata } from '../components'
+import { AllocationRequest, AllocationResponse } from '../common'
+import { fetch, useAsyncState, Prorata, Supervisor } from '../frontend'
 
 export type HomeProps = Record<string, unknown>
 
-export const Home: NextPage<HomeProps> = (_props) => {
+export const Home: NextPage<HomeProps> = (_) => {
+  // used to reset our app by updating the key of the component
+  const [instanceKey, setInstanceKey] = useState(0)
+
   const [input, setInput] = useState<AllocationRequest>()
   const [output] = useAsyncState<AllocationResponse>(() => {
     if (input == null) {
@@ -30,20 +32,38 @@ export const Home: NextPage<HomeProps> = (_props) => {
         <title>prorata</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Flex height="100vh" alignItems="center" justifyContent="center">
-        <Flex
-          direction="column"
-          background={useColorModeValue('grey.100', 'grey.700')}
-          p={[2, 4, 4, 8, 12]}
-          width="max-content"
-          maxWidth="68rem"
-        >
-          {/* <Heading size="lg">Prorata</Heading> */}
-          <Prorata allocations={output?.allocations} allocationFor={setInput}></Prorata>
-        </Flex>
-      </Flex>
+
+      {/* a few tools to control things */}
+      <Supervisor reset={() => setInstanceKey((v) => v + 1)} />
+
+      {/* the root layout */}
+      <Layout>
+        {/* the star of the show */}
+        <Prorata
+          key={instanceKey}
+          allocations={output?.allocations}
+          allocationFor={setInput}
+        ></Prorata>
+      </Layout>
     </>
   )
 }
+
+const Layout: React.FC = ({ children }) => (
+  <Flex height="100vh" alignItems="center" justifyContent="center">
+    <Flex
+      direction="column"
+      background={useColorModeValue('grey.100', 'grey.700')}
+      pl={[2, 4, 4, 6, 8]}
+      pr={[1, 1, 2, 4, 4]}
+      width="100%"
+      maxWidth={['48rem', '48rem', '54rem', '58rem']}
+      transitionProperty="max-width"
+      transitionDuration="normal"
+    >
+      {children}
+    </Flex>
+  </Flex>
+)
 
 export default Home

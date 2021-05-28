@@ -1,5 +1,5 @@
 import 'ress/ress.css'
-import '@fontsource/poppins/500.css'
+import '@fontsource/poppins/700.css'
 import '@fontsource/ubuntu-mono/700.css'
 import './app.css'
 
@@ -11,9 +11,7 @@ const extendedTheme = extendTheme({
     heading: `Poppins, ${theme.fonts.heading}`,
     body: `Ubuntu Mono, Poppins, ${theme.fonts.body}`,
   },
-  config: {
-    useSystemColorMode: true,
-  },
+  config: { useSystemColorMode: true },
 })
 
 function App({ Component, pageProps }: AppProps) {

@@ -23,21 +23,6 @@ Object {
 }
 `;
 
-exports[`Prorate Route properly validates input: Logically Impossible 1`] = `
-Object {
-  "allocations": Array [
-    Object {
-      "allocation": 0.5,
-      "name": "a",
-    },
-    Object {
-      "allocation": 0.5,
-      "name": "b",
-    },
-  ],
-}
-`;
-
 exports[`Prorate Route properly validates input: Missing Payload 1`] = `
 Object {
   "error": "Bad Request",

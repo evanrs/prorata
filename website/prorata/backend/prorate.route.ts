@@ -1,6 +1,6 @@
 import { Type } from '@sinclair/typebox'
 import { FastifyPluginAsync } from 'fastify'
-import { AllocationRequest, AllocationResponse } from '../shared/schema'
+import { AllocationRequest, AllocationResponse } from '../common/schema'
 import { allocate } from './allocate'
 
 export const registerProrateRoute: FastifyPluginAsync = async (app) => {
@@ -18,10 +18,7 @@ export const registerProrateRoute: FastifyPluginAsync = async (app) => {
       response: { 200: AllocationResponse },
     },
     async handler(request, reply) {
-      const allocations = allocate(
-        request.body.investor_amounts,
-        request.body.allocation_amount
-      )
+      const allocations = allocate(request.body.investor_amounts, request.body.allocation_amount)
       reply.status(200).send({ allocations })
     },
   })

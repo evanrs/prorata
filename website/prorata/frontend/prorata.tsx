@@ -2,12 +2,10 @@ import React, { useEffect, useState, useCallback, EffectCallback } from 'react'
 import { Flex, Grid, GridProps, Heading } from '@chakra-ui/react'
 import { useDebounce } from 'use-debounce'
 
-import { Storage } from '../client'
-import { ajv, AllocationRequest, AllocationResponse } from '../shared'
+import { Storage } from '.'
+import { ajv, AllocationRequest, AllocationResponse } from '../common'
 
-import { Field } from './field'
-import { CurrencyField } from './currency-field'
-import { InvestorRequestForm, InvestorUpdateHandler } from './investor-request-form'
+import { CurrencyField, InvestorRequestForm, InvestorUpdateHandler } from './components'
 
 export type ProrataProps = {
   allocations?: AllocationResponse['allocations']
@@ -19,8 +17,7 @@ const AllocationRequestStorage = Storage<AllocationRequest>('allocation-request'
 
 export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Element {
   const [ready, setReady] = useState(false)
-  const [allocation_amount, setAllocationAmount] =
-    useState<AllocationRequest['allocation_amount']>()
+  const [allocation_amount, setAllocationAmount] = useState<number>()
   const [investor_amounts, setInvestorAmounts] = useState<AllocationRequest['investor_amounts']>([])
 
   const [autoFocused, focused] = useDebounce(
@@ -37,28 +34,37 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
       setAllocationAmount(request?.allocation_amount)
       setInvestorAmounts(request?.investor_amounts ?? [])
     }
+    // if we unmount let's clear our session
+    return () => AllocationRequestStorage.remove('session')
   }, [])
 
   useEffect(() => {
-    const request = { allocation_amount, investor_amounts }
-    AllocationRequestStorage.set('session', request)
-    // if its empty reset the allocations
-    if (investor_amounts.length === 0) {
-      allocationFor()
+    if (ready) {
+      const request = { allocation_amount, investor_amounts }
+      // store current session
+      AllocationRequestStorage.set('session', request)
+      // if its empty reset the allocations
+      if (allocations?.length && investor_amounts.length === 0) {
+        allocationFor()
+      }
+      // if its a valid request get the allocation
+      else if (isAllocationRequest(request)) {
+        allocationFor(request)
+      }
     }
-    // if its a valid request get the allocation
-    else if (isAllocationRequest(request)) {
-      allocationFor(request)
-    }
-  }, [allocation_amount, investor_amounts])
+  }, [ready, allocation_amount, investor_amounts])
 
   const onInvestorUpdate: InvestorUpdateHandler = useCallback((name, value) => {
     setInvestorAmounts((investor_amounts) => {
       if (name === 'delete') {
         investor_amounts = investor_amounts.filter((v) => v !== value)
-      } else {
-        investor_amounts = [...investor_amounts]
-        investor_amounts[name === 'new' ? investor_amounts.length : name] = value
+      } else if (value) {
+        const index = name === 'new' ? investor_amounts.length : name
+        investor_amounts = [
+          ...investor_amounts.slice(0, index),
+          value,
+          ...investor_amounts.slice(index + 1),
+        ]
       }
 
       return investor_amounts
@@ -68,12 +74,12 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
   return (
     <Flex direction="column">
       <Table my={0}>
-        <Heading size="xs" fontWeight="black" my={1}>
+        <Heading size="xs" my={1}>
           Total Available Allocation
         </Heading>
         <div />
         <div />
-        <Heading size="xs" fontWeight="black" my={1} opacity={allocations?.length ? 1 : 0}>
+        <Heading size="xs" my={1} opacity={allocations?.length ? 1 : 0}>
           Total Allocated
         </Heading>
       </Table>
@@ -112,18 +118,17 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
 
       {/*  investor request form headings */}
       <Table my={0} mt=".5rem">
-        <Heading size="xs" fontWeight="black" mt={4} mb={1}>
+        <Heading size="xs" mt={4} mb={1}>
           Investor Breakdown
         </Heading>
-        <Heading size="xs" fontWeight="black" mt={4} mb={1}>
+        <Heading size="xs" mt={4} mb={1}>
           {/* Requested */}
         </Heading>
-        <Heading size="xs" fontWeight="black" mt={4} mb={1}>
+        <Heading size="xs" mt={4} mb={1}>
           {/* Average */}
         </Heading>
         <Heading
           size="xs"
-          fontWeight="black"
           mt={4}
           mb={1}
           textAlign="left"
@@ -147,6 +152,8 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
 
       {/*  new investor request form */}
       <InvestorRequestForm
+        // TODO drop the use of key here when handoff is complete
+        key={`new:${investor_amounts.length}`}
         name="new"
         onUpdate={onInvestorUpdate}
         autoFocus={autoFocused === 'investor-request-form'}
@@ -160,6 +167,7 @@ const Table: React.FC<GridProps> = (props) => (
     my={2}
     gap={[1, 1, 2, 2]}
     templateColumns="1fr 1fr 1fr minmax(4.5rem, .75fr) 3rem"
+    alignItems="flex-end"
     {...props}
   />
 )

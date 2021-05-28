@@ -1,4 +1,4 @@
-import type { InvestorRequest } from '../shared/schema'
+import type { InvestorRequest } from '../common/schema'
 import { sum } from './tools'
 
 type RankedInvestor = InvestorRequest & {
