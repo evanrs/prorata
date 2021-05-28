@@ -56,7 +56,7 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
       if (CommaRequired.test(value)) {
         return setFormatted(`${value.slice(0, -1)},${value.slice(-1)}`)
       } else if (HumanNumericEntry.test(value)) {
-        return setFormatted(value)
+        return setFormatted(value.replace(/[,.][,.]+/g, ''))
       }
       // guess they're not human … let's get formatting
       // remove all non-numeric characters and format
@@ -79,7 +79,7 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
   const onKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value
     const key = event.key
-    if (key === ',') setFormatted(value + key)
+    if (key === ',' && value.slice(-1) !== ',') setFormatted(value + key)
     if (key === '$' && !value) setFormatted(key)
   }, [])
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react'
-import { Button, Grid } from '@chakra-ui/react'
+import { Button, Grid, useColorModeValue } from '@chakra-ui/react'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 
 import { ajv, AllocationResponse, InvestorRequest } from '../../common'
@@ -100,11 +100,21 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
       />
 
       {request == null ? (
-        <Button colorScheme="messenger" type="submit" variant="solid" disabled={!verified}>
-          <AddIcon fontSize={14} />
+        <Button
+          colorScheme={verified ? useColorModeValue('messenger', 'gray') : 'gray'}
+          type="submit"
+          variant="solid"
+          disabled={!verified}
+        >
+          <AddIcon fontSize={14} opacity={verified ? 1 : 0.5} />
         </Button>
       ) : (
-        <Button colorScheme="red" variant="ghost" onClick={() => onUpdate('delete', request)}>
+        <Button
+          colorScheme="gray"
+          variant="ghost"
+          onClick={() => onUpdate('delete', request)}
+          sx={{ '> *': { opacity: 0.2 }, ':hover': { '> *': { opacity: 1 } } }}
+        >
           <DeleteIcon />
         </Button>
       )}
