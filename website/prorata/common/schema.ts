@@ -17,19 +17,19 @@ export type InvestorRequest = {
 
 export const InvestorRequest = Type.Object({
   name: Type.String({ minLength: 1 }),
-  requested_amount: Type.Integer({ minimum: 1 }),
-  average_amount: Type.Integer({ minimum: 0 }),
+  requested_amount: Type.Number({ minimum: 1 }),
+  average_amount: Type.Number({ minimum: 0 }),
 })
 
 export type InvestorAllocation = Static<typeof InvestorAllocation>
 export const InvestorAllocation = Type.Object({
   name: Type.String({ minLength: 1 }),
-  allocation: Type.Integer({ minimum: 0 }),
+  allocation: Type.Number({ minimum: 0 }),
 })
 
 export type AllocationRequest = Static<typeof AllocationRequest>
 export const AllocationRequest = Type.Object({
-  allocation_amount: Type.Integer({ minimum: 1 }),
+  allocation_amount: Type.Number({ minimum: 1 }),
   investor_amounts: Type.Array(InvestorRequest, { minItems: 1 }),
 })
 

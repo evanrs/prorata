@@ -43,7 +43,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
       const request = { allocation_amount, investor_amounts }
       // store current session
       AllocationRequestStorage.set('session', request)
-      // if its empty reset the allocations
+      // if it's empty reset the allocations
       if (allocations?.length && investor_amounts.length === 0) {
         allocationFor()
       }
