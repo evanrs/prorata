@@ -6,12 +6,11 @@ while others invested less than they were allowed to. One of deals happened two 
 other one happened two weeks ago. Please describe, in detail, how would you go about correcting this
 issue and how would you communicate this to the affected customers.
 
-
+<br/>
 
 # Response
 
-
-### Technical Response
+## Technical Response
 
 The first step with any bug prior to any work is to decide upon its severity. Once a severity is assigned we can then prioritize it against our in progress work. For any mission critical operation we would consider it to be Sev 1 — for a complete system failure we'd consider Sev X.
 
@@ -23,8 +22,9 @@ To start the work we must determine what _should_ have happened and formalize th
 
 After providing concrete expectations on the systems behavior we can begin to address the problem.
 
+<br/>
 
-### Customer Experience
+## Customer Experience
 
 In the meantime — while engineering is scrambling to address a Sev 1 error — we need to assure the customer our understanding for the grievance they've shared with us.
 
@@ -32,8 +32,9 @@ To the extent that we are able we must reverse the mistake. But, we mediate our 
 
 That said, it's a good habit to make the effort as a disgruntled customer could sow doubt in the our competence — given a large enough Twitter following.
 
+<br/>
 
-### Response to the Customer
+## Response to the Customer
 
 Thank you for bringing this to our attention. We've made this a top priority, and we're doing everything we can to fix the issue going forward.
 

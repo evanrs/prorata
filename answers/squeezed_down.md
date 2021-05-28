@@ -9,14 +9,13 @@ the investor?
 In addition, can you think of a better way we could change the proration basis logic so that
 this could potentially happen less often?
 
-
+<br/>
 
 # Response
 
+## Technical Response
 
-### Technical Response
-
-(See, discovering a bug)[discovering_a_bug.md] for our technical assement.
+See, [discovering a bug](discovering_a_bug.md), for our technical assement.
 
 We need to asses to what extent we agree with how investors insight. We must also consider how this made them feel and whether it erodes trust in the platform. These two considerations drive both our technical priorities and our response them.
 
@@ -26,8 +25,9 @@ As for their feelings, it's key that they not only feel valued, but that their s
 
 Questions are persistent, answers are transient — they will change over time with respect to the scope of our product. For now, we must fit the answers to our priorities for growth, retention, and product development.
 
+<br/>
 
-### Response to the Customer
+## Response to the Customer
 
 Thank you for sharing your insights, this contribution is helping us shape the platform. We've started a review of our aportionment logic to see if we could better serve valued investors like yourself.
 
@@ -37,9 +37,10 @@ With each investment on our platform an investors chances improve. We strive to 
 
 You are part of a sea change in investment — do not hesitate to reach out, your feedback is what makes AngelList Venture great.
 
+<br/>
 
-### Action Items
+## Action Items
 
 - Explore formal aportionment strategies and evaluate their experience on perceived fairness versus platform growth.
--
+
 - Review the customers product journey and determine key waypoints where they may earn a sense of accomplishment and status.
