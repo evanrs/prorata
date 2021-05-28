@@ -10,11 +10,11 @@ type NumberProps = Parameters<typeof NumberInput>[0]
 const ValidFormat = /^[+-]?[$]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/
 const HumanNumericEntry = /[$]$|(\d[,]\d{0,3}$)|(\.\d{0,1}$)/
 const CommaRequired = /([,$]\d{4})$/
+const InvalidStrings = /([e-])|([,.][,.]+)/g
 
 export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
   const { name, value, set, autoFocus, onChange: _, placeholder, ...rest } = props
   const { ref } = useAutoFocus(autoFocus)
-  const [focused, focusProps] = useFocusState()
 
   // Store the formatted value
   const [formatted, setFormatted] = useState(() => {
@@ -29,11 +29,20 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
       setFormatted(value == null || value == '' ? '' : format(value))
   }, [value])
 
+  // Provide focus state for effects to infer intent
+  const [focused, focusProps] = useFocusState({
+    // Update when done, accept input as implicitly correct if valid
+    onBlur: useCallback((event) => {
+      const text = format(event.currentTarget?.value.replace(InvalidStrings, ''))
+      if (isNumber(text)) setFormatted(text)
+    }, []),
+  })
+
   // Update ancestor with change
   useEffect(() => {
     if (set) {
       // clear the value when empty
-      // TODO how did it get empty?
+      // TODO … and where did it get emptied
       if (formatted === '' && value !== 0) return set(name)
       // check that we can parse their input, then update
       const next = parse(formatted)
@@ -57,7 +66,7 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
       if (CommaRequired.test(value)) {
         return setFormatted(`${value.slice(0, -1)},${value.slice(-1)}`)
       } else if (HumanNumericEntry.test(value)) {
-        return setFormatted(value.replace(/[,.][,.]+/g, ''))
+        return setFormatted(value.replace(InvalidStrings, ''))
       }
       // guess they're not human … let's get formatting
       // remove all non-numeric characters and format
@@ -69,18 +78,18 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
       const atEnd = caret === value.length
       const nudge = atEnd ? next.length : diff + -Math.sign(diff) * 1
       // always maintain caret position
-      setCaret(caret + nudge)
+      setCaret(caret + (isNumber(next) ? nudge : -1))
       // update only when the value has changed
-      if (next !== formatted) setFormatted(next)
+      if (next !== formatted && isNumber(next)) setFormatted(next)
     },
     [formatted],
   )
-
   // permit the input of natural numeric delimiters
   const onKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value
+    const caret = ref.current?.selectionStart ?? 0
     const key = event.key
-    if (key === ',' && value.slice(-1) !== ',') setFormatted(value + key)
+    if (key === ',' && value.slice(-1) !== ',' && value.length === caret) setFormatted(value + key)
     if (key === '$' && !value) setFormatted(key)
   }, [])
 
@@ -102,8 +111,8 @@ export const CurrencyField: React.FC<NumberProps & FieldProps> = (props) => {
         px={0}
         paddingInlineStart={fieldStyleProps.px}
         paddingInlineEnd={fieldStyleProps.px}
-        onKeyDown={onKeyDown}
         onChange={onChange}
+        onKeyDown={onKeyDown}
       />
     </NumberInput>
   )
@@ -144,4 +153,8 @@ function useCaret(ref: RefObject<HTMLInputElement>, initialCaret = 0) {
   }, [state])
   // induce layout effect by using non referentially equal values
   return useCallback((caret: number) => setState({ caret }), [])
+}
+
+function isNumber(value: currency.Any): value is number | string {
+  return Number.isNaN(currency(value).value) === false
 }
