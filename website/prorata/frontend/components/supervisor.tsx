@@ -20,17 +20,9 @@ export type SupervisorProps = {
 }
 
 export const Supervisor = ({ repeat, reset }: SupervisorProps) => {
-  const [hover, setHover] = useState(false)
   const { colorMode, toggleColorMode } = useColorMode()
-
-  const { top, bottom } = usePurpleTheme(hover)
-  const sx: SystemStyleObject = {
-    willChange: 'color',
-    transitionProperty: 'color',
-    transitionDuration: 'normal',
-  }
-
-  const props = {
+  const { top, bottom, hover, onHoverProps } = useCustomHoverStates(false)
+  const buttonProps = {
     variant: 'ghost',
     py: 0,
     px: 0,
@@ -39,38 +31,33 @@ export const Supervisor = ({ repeat, reset }: SupervisorProps) => {
     color: 'unset',
   }
 
-  const onHover = {
-    onMouseEnter: () => setHover(true),
-    onMouseLeave: () => setHover(false),
-  }
-
   return (
     <>
-      <Layout position="top" {...onHover} sx={{ ...sx, ...top }}>
+      {/* top */}
+      <Layout position="top" {...onHoverProps} sx={top}>
         <Heading size="md">prorata</Heading>
         <Grid width="max-content" templateColumns="repeat(3, min-content)" gap={[1, 1, 2, 2]}>
-          <Button {...props} as="a" href={mailto}>
+          <Button {...buttonProps} as="a" href={mailto}>
             <ChatIcon />
-            {/* <Flex px={2} />
-            <Heading size="xs">Evan Schneider</Heading> */}
           </Button>
-          <Button {...props} onClick={toggleColorMode}>
+          <Button {...buttonProps} onClick={toggleColorMode}>
             {colorMode === 'dark' ? <SunIcon boxSize={5} /> : <MoonIcon boxSize={4} />}
           </Button>
 
           {repeat != null && (
-            <Button {...props} onClick={repeat}>
+            <Button {...buttonProps} onClick={repeat}>
               <RepeatIcon />
             </Button>
           )}
           {reset != null && (
-            <Button {...props} onClick={reset}>
+            <Button {...buttonProps} onClick={reset}>
               <SmallCloseIcon boxSize={6} />
             </Button>
           )}
         </Grid>
       </Layout>
-      <Layout position="bottom" justifyContent="flex-end" {...onHover} sx={{ ...sx, ...bottom }}>
+      {/* bottom */}
+      <Layout position="bottom" justifyContent="flex-end" {...onHoverProps} sx={bottom}>
         <Button
           color=""
           variant="ghost"
@@ -122,7 +109,20 @@ const Layout: React.FC<LayoutProps> = ({ children, position, ...props }) => {
   )
 }
 
-function useDefaultTheme(hover: boolean) {
+function useCustomHoverStates(initialState?: boolean) {
+  const [hover, setHover] = useState(Boolean(initialState))
+
+  const onHoverProps = {
+    onMouseEnter: () => setHover(true),
+    onMouseLeave: () => setHover(false),
+  }
+
+  const sx: SystemStyleObject = {
+    willChange: 'color',
+    transitionProperty: 'color',
+    transitionDuration: 'normal',
+  }
+
   const top = useColorModeValue(
     { color: 'gray.400', ':hover': { color: 'gray.400' } },
     { color: 'gray.600', ':hover': { color: 'gray.500' } },
@@ -133,18 +133,5 @@ function useDefaultTheme(hover: boolean) {
     { color: hover ? 'pink.200' : 'gray.700', ':hover': { color: 'gray.200' } },
   )
 
-  return { top, bottom }
-}
-
-function usePurpleTheme(hover: boolean) {
-  const top = useColorModeValue(
-    { color: 'gray.400', ':hover': { color: 'gray.400' } },
-    { color: '#37259D', ':hover': { color: 'gray.500' } },
-  )
-  const bottom = useColorModeValue(
-    { color: hover ? 'pink.400' : 'gray.200', ':hover': { color: 'gray.600' } },
-    { color: hover ? 'pink.200' : '#2D1E7E', ':hover': { color: 'gray.200' } },
-  )
-
-  return { top, bottom }
+  return { top: { ...sx, ...top }, bottom: { ...sx, ...bottom }, hover, onHoverProps }
 }

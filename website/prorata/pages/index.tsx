@@ -55,7 +55,8 @@ const Layout: React.FC = ({ children }) => (
     width="100%"
     alignItems="center"
     justifyContent="center"
-    background={useColorModeValue('#FFF', '#20165C')}
+    background={useColorModeValue('#FFF', 'gray.800')}
+    sx={safeAreaInsetPadding}
   >
     <Flex
       direction="column"
@@ -70,5 +71,12 @@ const Layout: React.FC = ({ children }) => (
     </Flex>
   </Flex>
 )
+
+const safeAreaInsetPadding = {
+  pl: 'env(safe-area-inset-left)',
+  pr: 'env(safe-area-inset-right)',
+  pt: 'env(safe-area-inset-top)',
+  pb: 'env(safe-area-inset-bottom)',
+}
 
 export default Home
