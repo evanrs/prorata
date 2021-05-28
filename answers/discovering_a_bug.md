@@ -17,7 +17,7 @@ The first step with any bug prior to any work is to decide upon its severity. On
 
 I would asses this as a Sev 1 error as it violates a core feature of the product. Failing to implement this correctly erodes trust with our most valuable customers.
 
-Having determined a severity we can attempt to size the problem to understand the ambiguity and time risk involved in addressing. Prior to any work or research on the matter we need to be cogniscant of our assumptions about the scale of the problem. [Sever diveations] from our sizing are good indicators of both problem scope and the teams familiarity with it.
+Having determined a severity we can attempt to size the problem to understand the ambiguity and time risk involved in addressing. Prior to any work or research on the matter we need to be cogniscant of our assumptions about the scale of the problem. Severe deviations from our sizing are good indicators of both problem scope and the teams familiarity with it.
 
 To start the work we must determine what _should_ have happened and formalize that as a test. If we can derive a more general rule we can consider parametric testing to fuzz the system and realize a more complete coverage of test cases. In either case we must at least avoid repeating our mistake and produce a concrete metric — our test — to evaluate success.
 
@@ -26,14 +26,16 @@ After providing concrete expectations on the systems behavior we can begin to ad
 
 ### Customer Experience
 
-In the meantime — while engineering is scrambling to address a Sev 1 error — we need to assure the customer our understanding for their grievance. [more]
+In the meantime — while engineering is scrambling to address a Sev 1 error — we need to assure the customer our understanding for the grievance they've shared with us.
 
-To the extent that we are able we must reverse the mistake. But, this is mediated by the severity of the issue. A less severe error is subject to the teams capacity and the value of amending the issue.
+To the extent that we are able we must reverse the mistake. But, we mediate our effort by the severity of the issue. A less severe error is subject to the teams capacity and the value to our growth and retention in amending the deal.
+
+That said, it's a good habit to make the effort as a disgruntled customer could sow doubt in the our competence — given a large enough Twitter following.
 
 
 ### Response to the Customer
 
-Thank you for bringing this error to our attention. We've made this a top priority, we're doing everything we can to fix the issue going forward.
+Thank you for bringing this to our attention. We've made this a top priority, and we're doing everything we can to fix the issue going forward.
 
 While we hope no one has an experience like this on our platform we intend to do all we can bring our response in line with our values. As we work to fix this we'll be working with you and the other parties to amend the deal.
 
