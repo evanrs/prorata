@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@chakra-ui/react'
+import { useDebounce } from 'use-debounce'
+
 import { useAutoFocus } from '../hooks'
 
 export type InputProps = Parameters<typeof Input>[0] & { type?: string }
@@ -22,16 +24,22 @@ export const fieldStyleProps = {
 
 export const Field: React.FC<InputProps & FieldProps> = (props) => {
   const { name, value, set, autoFocus, ...rest } = props
+  const [local, setLocal] = useState(value ?? '')
+
+  const [delayedLocal, delay] = useDebounce(local, 600)
+  useEffect(() => {
+    set && set(name, local)
+  }, [delayedLocal])
+
   return (
     <Input
       {...useAutoFocus(autoFocus)}
       {...fieldStyleProps}
       {...rest}
+      onBlur={delay.flush}
       name={name}
-      value={value ?? ''}
-      onChange={(e) => {
-        set && set(name, e.currentTarget.value)
-      }}
+      value={local}
+      onChange={(e) => setLocal(e.currentTarget.value)}
     />
   )
 }
