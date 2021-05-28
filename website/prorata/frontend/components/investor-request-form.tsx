@@ -7,8 +7,6 @@ import { Field, Setter } from './field'
 import { CurrencyField } from './currency-field'
 import { isNotEqual } from '../tools'
 
-export const isInvestorRequest = ajv.compile<InvestorRequest>(InvestorRequest)
-
 export type InvestorProps = {
   autoFocus?: boolean
   request?: InvestorRequest
@@ -36,14 +34,13 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
   }, [])
 
   useEffect(() => {
-    if (submitted && verified && request !== verified) {
-      if (isNotEqual(verified, request)) {
-        onUpdate(name, verified)
-      }
-
+    if (submitted && verified && isNotEqual(verified, request)) {
+      // update when they're diffferent
+      onUpdate(name, verified)
+      // reset the form when done
       if (name === 'new') {
-        setSubmitted(false)
         setState({})
+        setSubmitted(false)
       }
     } else if (name !== 'new' && submitted && !verified) {
       onUpdate(name, state as InvestorRequest)
@@ -116,3 +113,5 @@ export const InvestorRequestForm: React.FC<InvestorProps> = ({
     </Grid>
   )
 }
+
+export const isInvestorRequest = ajv.compile<InvestorRequest>(InvestorRequest)
