@@ -20,7 +20,7 @@ export type SupervisorProps = {
 }
 
 export const Supervisor = ({ repeat, reset }: SupervisorProps) => {
-  const [hover, setHover] = useState(true)
+  const [hover, setHover] = useState(false)
   const { colorMode, toggleColorMode } = useColorMode()
 
   const { top, bottom } = usePurpleTheme(hover)
