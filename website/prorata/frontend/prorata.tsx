@@ -35,7 +35,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
       setInvestorAmounts(request?.investor_amounts ?? [])
     }
     // if we unmount let's clear our session
-    return () => AllocationRequestStorage.clear('session')
+    return () => AllocationRequestStorage.remove('session')
   }, [])
 
   useEffect(() => {

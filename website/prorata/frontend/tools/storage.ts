@@ -1,6 +1,7 @@
 export function Storage<T>(prefix?: string) {
   const keyFor = (key?: string) => [prefix, key].filter(Boolean).join(':')
-  return {
+
+  const storage = {
     get(key?: string): T | undefined {
       try {
         return JSON.parse(localStorage.getItem(keyFor(key)) ?? '') ?? undefined
@@ -14,8 +15,10 @@ export function Storage<T>(prefix?: string) {
       return value
     },
 
-    clear(key: string) {
+    remove(key: string) {
       localStorage.removeItem(keyFor(key))
     },
   }
+
+  return storage
 }
