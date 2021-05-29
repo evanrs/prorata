@@ -1,11 +1,11 @@
-# YATHP *by Evan Schneider* 🎉
-Pronounced *waɪ-eɪ-tiː-eɪʧ-piː*, or Yet Another Take Home Project if you've got the syllabels to spare — this is exactly that. However on this fortutious occasion you're looking at *your* take home project, the AngelList Venture Take Home Project which is definitely not a templated value for {{IMPORTANT_PERSONS_NAME}}. Well you've read this far, so maybe now's a good time to stop wasting yours.
+# *YATHP by Evan Schneider* 👨‍💻
+Pronounced *waɪ-eɪ-tiː-eɪʧ-piː*, or Yet Another Take Home Project if you've got the syllabels to spare — this is exactly that. However on this fortutious occasion you're looking at *your* take home project, the **AngelList Venture Take Home Project**  which is definitely not a templated value for **{{IMPORTANT_PERSONS_NAME}}**
 
 ## … *on with the show*
 Start playing with a deployed instance of `prorata` now — head over to [`prorata.vercel.app`](https://prorata.vercel.app) or gawk at the unnecessarily large gif.
 
 
-[![A demo of prorata](assets/demo.gif)](https://prorata.vercel.app)
+[<img src="assets/demo.gif" style="border-radius:1rem;"/>](https://prorata.vercel.app)
 
 <br/>
 
