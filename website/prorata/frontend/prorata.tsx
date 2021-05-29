@@ -85,7 +85,7 @@ export function Prorata({ allocations, allocationFor }: ProrataProps): JSX.Eleme
         </Heading>
         <div />
         <div />
-        <Heading size="xs" my={1} sx={opacityTransistionFor(allocations?.length, 'slower')}>
+        <Heading size="xs" my={1} sx={opacityTransistionFor(allocations?.length, 'slow')}>
           Total Allocated
         </Heading>
       </Table>
