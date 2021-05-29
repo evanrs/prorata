@@ -1,6 +1,6 @@
 # Prorata
 
-This simple proration tool includes backend and frontend built principally with Next.js, Fastify, and JSON Schema.
+This simple proration tool includes a backend and frontend built principally with Next.js, Fastify, and JSON Schema.
 
 A suite of tests are provided to verify the allocation logic, api route handling, basic rendering capabilities and so forth.
 
@@ -32,7 +32,7 @@ vercel dev
 In production the script is built and run with `node`
 ```sh
 yarn build
-pnpm start
+yarn start
 ```
 
 ## Docker
