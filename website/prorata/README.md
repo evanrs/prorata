@@ -1,27 +1,50 @@
-# NextJS Typescript Boilerplate
+# Prorata
 
-Bootstrap a developer-friendly NextJS app configured with:
+This simple proration tool includes backend and frontend built principally with Next.js, Fastify, and JSON Schema.
 
-- [Typescript](https://www.typescriptlang.org/)
-- Linting with [ESLint](https://eslint.org/)
-- Formatting with [Prettier](https://prettier.io/)
-- Linting, typechecking and formatting on by default using [`husky`](https://github.com/typicode/husky) for commit hooks
-- Testing with [Jest](https://jestjs.io/) and [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro)
+A suite of tests are provided to verify the allocation logic, api route handling, basic rendering capabilities and so forth.
 
-## Deploy your own
+Much of this work here builds off corollary work from my personal projects — any code provided is not exclusive and will be reused in my future work.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript-eslint-jest&project-name=with-typescript-eslint-jest&repository-name=with-typescript-eslint-jest)
+## Prerequisites
+- [`node.js >= v15`](https://volta.sh/) — use of [volta](https://volta.sh/) is encouraged
+- [`yarn`](https://pnpm.io/)
 
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-typescript-eslint-jest with-typescript-eslint-jest-app
-# or
-yarn create next-app --example with-typescript-eslint-jest with-typescript-eslint-jest-app
+## Setup
+To get the development environment set up begin with its dependencies.
+```sh
+yarn install
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+## Testing
+```sh
+yarn test
+```
+To run the test continously during development use `test:watch` rather than `test`
+
+## Running
+In development the server is run by `vercel` from the repositories root
+```sh
+vercel dev
+```
+
+In production the script is built and run with `node`
+```sh
+yarn build
+pnpm start
+```
+
+## Docker
+
+Rather than building locally a dockerfile is provided to build and run the app
+```sh
+docker build . -t evanrs-prorata
+docker run -p 3000:3000 evanrs-prorata
+```
+
+<br/>
+
+## License
+
+This project is [MIT licensed](./LICENSE).
