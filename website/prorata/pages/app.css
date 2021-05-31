@@ -6,7 +6,9 @@ html,
 html body,
 html body[style] {
   min-height: 100vh;
-  min-height: -webkit-fill-available;
+  @media only screen and (max-device-width: 1024px) {
+    min-height: -webkit-fill-available;
+  }
 }
 
 body {
