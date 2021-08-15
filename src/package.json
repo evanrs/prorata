@@ -1,7 +1,7 @@
 {
   "name": "prorata",
   "author": "Evan Schneider <me@evanrs.com>",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "private": true,
   "version": "0.0.0",
   "scripts": {
