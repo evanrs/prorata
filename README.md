@@ -1,6 +1,6 @@
 Start playing with a deployed instance of `prorata` now — head over to [`prorata.vercel.app`](https://prorata.vercel.app) or gawk at the unnecessarily large gif.
 
-[<img src="assets/demo.gif" style="border-radius:1rem;"/>](https://prorata.vercel.app)
+[<img target="_blank" src="assets/demo.gif" style="border-radius:1rem;"/>](https://prorata.vercel.app)
 
 <br/>
 
@@ -50,4 +50,4 @@ Thank you for coming to my ted talk.
 
 ## License
 
-This project is [MIT licensed](./LICENSE).
+This project is [BSD 3 Clause](./LICENSE).
