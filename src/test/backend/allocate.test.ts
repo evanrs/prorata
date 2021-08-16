@@ -34,6 +34,11 @@ describe('Proration', () => {
     ).toEqual({ a: 100, _: 0, c: 25 })
   })
 
+  /**
+   * TODO handle edge case for
+   *  { new investor, no history, high bid } vs
+   *    { old investor, large history, small bid }
+   */
   it('allocates new investors by pool size', () => {
     expect(
       resultFor({
